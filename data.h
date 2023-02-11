@@ -3,8 +3,7 @@
 
 #define WORD_LEN 14
 
-typedef struct Data
-{
+typedef struct Data {
     int code[14];
 } Data;
 

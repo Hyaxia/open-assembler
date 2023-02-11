@@ -3,15 +3,12 @@
 #include <ctype.h>
 #include "string_utils.h"
 
-int word_trim_spaces(char *out, char *str)
-{
+int word_trim_spaces(char *out, char *str) {
     int len = 0;
     int index = 0;
     int inside_word = 0;
-    while (str[index] != '\0' && str[index] != '\n')
-    {
-        if (isspace(str[index]))
-        {
+    while (str[index] != '\0' && str[index] != '\n') {
+        if (isspace(str[index])) {
             if (inside_word) /* first space after word */
             {
                 out[len] = '\0';
@@ -20,8 +17,7 @@ int word_trim_spaces(char *out, char *str)
             index++;
             continue;
         }
-        if (!isspace(str[index]))
-        {
+        if (!isspace(str[index])) {
             inside_word = 1;
         }
         out[len] = str[index];
@@ -32,8 +28,7 @@ int word_trim_spaces(char *out, char *str)
     return len;
 }
 
-int trim_whitespaces(char *out, int len, char *str)
-{
+int trim_whitespaces(char *out, int len, char *str) {
     char *end;
     int out_size;
 
@@ -41,7 +36,7 @@ int trim_whitespaces(char *out, int len, char *str)
         return 0;
 
     /* trim leading spaces */
-    while (isspace((unsigned char)*str))
+    while (isspace((unsigned char) *str))
         str++;
 
     if (*str == 0) /* if all string is spaces */
@@ -52,7 +47,7 @@ int trim_whitespaces(char *out, int len, char *str)
 
     /* trim trailing spaces */
     end = str + strlen(str) - 1;
-    while (end > str && isspace((unsigned char)*end))
+    while (end > str && isspace((unsigned char) *end))
         end--;
     end++;
 
@@ -66,15 +61,14 @@ int trim_whitespaces(char *out, int len, char *str)
     return out_size;
 }
 
-int has_word(char *line, char *word, int word_len)
-{
+int has_word(char *line, char *word, int word_len) {
     char *found_pt = strstr(line, word);
     char *right_side = found_pt + word_len;
-    if (found_pt == NULL)
-    {
+    if (found_pt == NULL) {
         return 0;
     }
-    if (!isspace(*right_side) && *right_side != '\n' && *right_side != '\0') /* there is continuation of the word from the right */
+    if (!isspace(*right_side) && *right_side != '\n' &&
+        *right_side != '\0') /* there is continuation of the word from the right */
     {
         return 0;
     }
@@ -89,8 +83,7 @@ int has_word(char *line, char *word, int word_len)
     return 1;
 }
 
-void replace_extension(char *new_path, char *original_path, char *new_extension)
-{
+void replace_extension(char *new_path, char *original_path, char *new_extension) {
     if (*original_path == '.') /* if relative path */
     {
         *new_path = *original_path;
@@ -98,8 +91,7 @@ void replace_extension(char *new_path, char *original_path, char *new_extension)
         original_path++;
     }
 
-    while (*original_path != '.')
-    {
+    while (*original_path != '.') {
         *new_path = *original_path;
         new_path++;
         original_path++;
@@ -108,11 +100,9 @@ void replace_extension(char *new_path, char *original_path, char *new_extension)
     strcat(new_path, new_extension);
 }
 
-int get_first_word(char *first_word, char *line, int line_len)
-{
+int get_first_word(char *first_word, char *line, int line_len) {
     int word_size = 0, index = 0;
-    while (isspace(*line) && index < line_len && *line != '\n')
-    {
+    while (isspace(*line) && index < line_len && *line != '\n') {
         line++;
         index++;
     }
@@ -120,8 +110,7 @@ int get_first_word(char *first_word, char *line, int line_len)
     {
         return word_size;
     }
-    while (!isspace(*line) && index < line_len && *line != '\n')
-    {
+    while (!isspace(*line) && index < line_len && *line != '\n') {
         *first_word = *line;
         first_word++;
         line++;
@@ -131,20 +120,16 @@ int get_first_word(char *first_word, char *line, int line_len)
     return word_size;
 }
 
-int remove_last_char(char *dest, char *src, int word_len)
-{
+int remove_last_char(char *dest, char *src, int word_len) {
     strcpy(dest, src);
     *(dest + word_len - 1) = '\0';
     return word_len - 1;
 }
 
-int is_all_spaces_or_newline(char *word, int word_len)
-{
+int is_all_spaces_or_newline(char *word, int word_len) {
     int index;
-    for (index = 0; index < word_len; index++)
-    {
-        if (isspace(*word) != 0 || *word == '\n' || *word == '\0')
-        {
+    for (index = 0; index < word_len; index++) {
+        if (isspace(*word) != 0 || *word == '\n' || *word == '\0') {
             continue;
         }
         return 0;

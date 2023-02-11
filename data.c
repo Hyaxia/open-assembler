@@ -6,32 +6,28 @@
 #include "error_handling.h"
 #include "data.h"
 
-int num_to_code(int number, Data *data)
-{
+int num_to_code(int number, Data *data) {
     int index, current_digit;
     int mask = 1;
-    for (index = 0; index < WORD_LEN; index++)
-    {
+    for (index = 0; index < WORD_LEN; index++) {
         current_digit = mask & (number >> index);
         data->code[WORD_LEN - 1 - index] = current_digit; /* we populate the array from the end */
     }
     return 0;
 }
 
-int dot_data_len(char *content)
-{
+int dot_data_len(char *content) {
     int len = 0;
     char *word = strtok(NULL, " ");
-    while (word != NULL)
-    {
+    while (word != NULL) {
         len++;
         word = strtok(NULL, ",");
     }
     return len;
 }
 
-Result store_dot_data(Data *data, char *content, char *no_macro_file_path, int line_num)
-{ /* TODO: add error handling */
+Result
+store_dot_data(Data *data, char *content, char *no_macro_file_path, int line_num) { /* TODO: add error handling */
     Result res;
     long current_num;
     int len = 0;
@@ -44,9 +40,7 @@ Result store_dot_data(Data *data, char *content, char *no_macro_file_path, int l
         if (*current_word == '+') /* if its a positive number noted by `+` then skip to the number itself */
         {
             current_num = strtol((current_word + 1), NULL, 10);
-        }
-        else
-        {
+        } else {
             current_num = strtol(current_word, NULL, 10);
         }
         num_to_code(current_num, data);
@@ -60,8 +54,8 @@ Result store_dot_data(Data *data, char *content, char *no_macro_file_path, int l
     return res;
 }
 
-Result store_dot_string(Data *data, char *content, char *no_macro_file_path, int line_num)
-{ /* TODO: add error handling */
+Result
+store_dot_string(Data *data, char *content, char *no_macro_file_path, int line_num) { /* TODO: add error handling */
     Result res;
     int len = 0;
     char *word = strtok(NULL, " ");
@@ -70,7 +64,7 @@ Result store_dot_string(Data *data, char *content, char *no_macro_file_path, int
     word++;              /* skip first `"`" */
     while (*word != '"') /* loop until the end of the string */
     {
-        num_to_code((int)(*word), data);
+        num_to_code((int) (*word), data);
         data++;
         len++;
         word++;

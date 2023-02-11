@@ -8,8 +8,7 @@
 #include "config.h"
 #include "error_handling.h"
 
-int pre_assembler(char *file_path)
-{
+int pre_assembler(char *file_path) {
     FILE *fp, *no_macro_fp;
     char *line = NULL, *trimmed_line, *no_macro_file_path, *macro_name;
     size_t len = 0;
@@ -19,8 +18,7 @@ int pre_assembler(char *file_path)
     int new_macro_content_alloc = sizeof(char) * MACRO_MAX_LENGTH;
 
     fp = fopen(file_path, "r");
-    if (fp == NULL)
-    {
+    if (fp == NULL) {
         fprintf(stderr, "File \"%s\" not found\n", file_path);
         return 1;
     }
@@ -33,17 +31,13 @@ int pre_assembler(char *file_path)
     replace_extension(no_macro_file_path, file_path, PRE_ASSEMBLER_OUTPUT_EXTENSION);
     no_macro_fp = fopen(no_macro_file_path, "w+");
 
-    while ((read = getline(&line, &len, fp)) != -1)
-    {
-        if (len > MAX_LINE_LEN)
-        {
+    while ((read = getline(&line, &len, fp)) != -1) {
+        if (len > MAX_LINE_LEN) {
             log_error("line is longer than 80 characters", file_path, line_num);
             has_errors = 1;
         }
-        if (inside_macro == 1)
-        {
-            if (has_word(line, MACRO_END, MACRO_END_LEN))
-            {
+        if (inside_macro == 1) {
+            if (has_word(line, MACRO_END, MACRO_END_LEN)) {
                 macros_size++;
                 if (macros_size == macros_allocated) /* if about to reach full memory of allocated macros */
                 {
@@ -54,20 +48,16 @@ int pre_assembler(char *file_path)
                 continue;
             }
             fputs(line, no_macro_fp);
-            if (len + macros[macros_size].content_size > new_macro_content_alloc)
-            {
-                macros[macros_size].content = realloc(macros[macros_size].content, (new_macro_content_alloc + MAX_LINE_LEN * 3) * sizeof(char));
+            if (len + macros[macros_size].content_size > new_macro_content_alloc) {
+                macros[macros_size].content = realloc(macros[macros_size].content,
+                                                      (new_macro_content_alloc + MAX_LINE_LEN * 3) * sizeof(char));
             }
             strcat(macros[macros_size].content, line);
-        }
-        else
-        {
-            if (has_word(line, MACRO_START, MACRO_START_LEN))
-            {
+        } else {
+            if (has_word(line, MACRO_START, MACRO_START_LEN)) {
                 strtok(line, " ");
                 macro_name = strtok(NULL, " ");
-                if (macro_name == NULL || isspace(*macro_name))
-                {
+                if (macro_name == NULL || isspace(*macro_name)) {
                     log_error("mcr declaration without mcr name", file_path, line_num);
                     has_errors = 1;
                     continue;
@@ -80,16 +70,13 @@ int pre_assembler(char *file_path)
                 continue;
             }
             target_macro = get_macro(trimmed_line, line, macros, macros_size, len);
-            if (target_macro != NULL)
-            {
-                if (!has_errors)
-                {
+            if (target_macro != NULL) {
+                if (!has_errors) {
                     fputs(target_macro->content, no_macro_fp);
                 }
                 continue;
             }
-            if (!has_errors)
-            {
+            if (!has_errors) {
                 fputs(line, no_macro_fp);
             }
         }

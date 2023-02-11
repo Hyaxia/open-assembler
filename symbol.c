@@ -6,21 +6,17 @@
 #include "config.h"
 #include "string_utils.h"
 
-int is_symbol_defined(char *symbol_name, Symbol *symbols, int symbols_len)
-{
+int is_symbol_defined(char *symbol_name, Symbol *symbols, int symbols_len) {
     int index;
-    for (index = 0; index < symbols_len; index++)
-    {
-        if (strcmp(symbols[index].name, symbol_name) == 0)
-        {
+    for (index = 0; index < symbols_len; index++) {
+        if (strcmp(symbols[index].name, symbol_name) == 0) {
             return 1;
         }
     }
     return 0;
 }
 
-int is_symbol_deinition(char *word, int word_len)
-{
+int is_symbol_deinition(char *word, int word_len) {
     if (*(word + word_len - 1) == ':') /* its a symbol if the last char is `:` */
     {
         return 1;
@@ -28,18 +24,14 @@ int is_symbol_deinition(char *word, int word_len)
     return 0;
 }
 
-int is_symbol_name_valid(char *word, int word_len)
-{
+int is_symbol_name_valid(char *word, int word_len) {
     int index;
-    if (word_len > SYMBOL_MAX_LEN)
-    {
+    if (word_len > SYMBOL_MAX_LEN) {
         return 0;
     }
     index = 0;
-    while (index < word_len)
-    {
-        if (!isalnum(*word))
-        {
+    while (index < word_len) {
+        if (!isalnum(*word)) {
             return 0;
         }
         index++;
@@ -48,8 +40,7 @@ int is_symbol_name_valid(char *word, int word_len)
     return 1;
 }
 
-Result add_external_symbol(Symbol *symbols, int symbols_len, char *word)
-{
+Result add_external_symbol(Symbol *symbols, int symbols_len, char *word) {
     Result res;
     int symbol_name_len;
     char *symbol_name = malloc(sizeof(char) * SYMBOL_MAX_LEN);
@@ -70,8 +61,7 @@ Result add_external_symbol(Symbol *symbols, int symbols_len, char *word)
     return res;
 }
 
-Result add_data_symbol(Symbol *symbols, int symbols_len, char *symbol_name, int symbol_name_len, int DC)
-{
+Result add_data_symbol(Symbol *symbols, int symbols_len, char *symbol_name, int symbol_name_len, int DC) {
     Result res;
 
     symbols[symbols_len].counter = DC;
@@ -86,8 +76,7 @@ Result add_data_symbol(Symbol *symbols, int symbols_len, char *symbol_name, int 
     return res;
 }
 
-Result add_code_symbol(Symbol *symbols, int symbols_len, char *symbol_name, int symbol_name_len, int IC)
-{
+Result add_code_symbol(Symbol *symbols, int symbols_len, char *symbol_name, int symbol_name_len, int IC) {
     Result res;
 
     symbols[symbols_len].counter = IC;

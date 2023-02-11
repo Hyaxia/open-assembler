@@ -4,8 +4,7 @@
 #include "symbol.h"
 #include "data.h"
 
-typedef struct AssemblerResult
-{
+typedef struct AssemblerResult {
     int has_errors;
     Symbol *symbols;
     Data *datas;
