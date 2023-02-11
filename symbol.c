@@ -96,6 +96,7 @@ Result add_code_symbol(Symbol *symbols, int symbols_len, char *symbol_name, int 
     strcpy(symbols[symbols_len].name, symbol_name);
     strcpy(symbols[symbols_len].type, "code");
     /* TODO: add a check if there is already the name of the symbol. */
+    /* TODO: we need to identify the symbol and handle it */
 
     res.has_errors = 0;
     res.len = 1;

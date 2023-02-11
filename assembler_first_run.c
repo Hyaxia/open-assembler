@@ -15,13 +15,13 @@ AssemblerResult assembler_first_run(char *file_path)
 {
     FILE *fp;
     size_t len = 0;
-    intmax_t read;
     char *line = NULL, *no_macro_file_path, *current_word, *symbol_name, *word;
     int IC = 0;                         /* current counter for instructions */
+    int DC = 0;                         /* current counter for data */
     int line_num = 0;                   /* we start from 0 becuase as soon as we enter the while loop we increase the line_num */
     int has_symbol = 0, has_errors = 0; /* flags */
-    int current_word_len, symbol_name_len, symbols_len = 0, symbols_allocated = 3;
-    int datas_allocated = MAX_LINE_LEN, datas_len = 0;
+    int current_word_len, symbol_name_len, symbols_len = 0;
+    int datas_allocated = MAX_LINE_LEN, symbols_allocated = MAX_LINE_LEN;
     int instruction_code;
     Symbol *symbols;
     Data *datas;
@@ -56,7 +56,7 @@ AssemblerResult assembler_first_run(char *file_path)
         has_symbol = 0;
         line_num++;
         /* here starts the logic for processing the line */
-        if (is_all_spaces_or_newline(line, len) == 1)
+        if (is_all_spaces_or_newline(line, (int)len) == 1)
         {
             continue;
         }
@@ -81,51 +81,52 @@ AssemblerResult assembler_first_run(char *file_path)
         }
         if (has_symbol)
         {
-            word = strtok(NULL, " ");
+            word = strtok(NULL, " "); /* we already saved the symbol name, so move to the next value */
             word_trim_spaces(current_word, word);
         }
         if (strcmp(current_word, ".data") == 0 || strcmp(current_word, ".string") == 0)
         {
-            if (has_symbol) /* add a `data` symbol */
+            if (has_symbol) /* add a `data` symbol to the symbol table */
             {
-                res = add_data_symbol(symbols, symbols_len, symbol_name, symbol_name_len, datas_len);
+                res = add_data_symbol(symbols, symbols_len, symbol_name, symbol_name_len, DC);
                 symbols_len = symbols_len + res.len;
             }
-            if (strcmp(current_word, ".data") == 0)
+            if (strcmp(current_word, ".data") == 0) /* handle data symbol */
             {
-                res = store_dot_data(&datas[datas_len], word, no_macro_file_path, line_num);
+                res = store_dot_data(&datas[DC], word, no_macro_file_path, line_num);
             }
-            if (strcmp(current_word, ".string") == 0)
+            if (strcmp(current_word, ".string") == 0) /* handle dot string */
             {
-                res = store_dot_string(&datas[datas_len], word, no_macro_file_path, line_num);
+                res = store_dot_string(&datas[DC], word, no_macro_file_path, line_num);
             }
             if (res.has_errors == 1)
             {
                 has_errors = 1;
             }
             /* handle memory allocation for data array */
-            if (datas_len > datas_allocated - MAX_LINE_LEN)
+            if (DC > datas_allocated - MAX_LINE_LEN)
             {
                 datas_allocated = datas_allocated + datas_allocated;
                 datas = realloc(datas, sizeof(Data) * (datas_allocated));
             }
-            datas_len = datas_len + res.len; /* set the length of Data array, basically the `DC` */
-            continue;
+            DC = DC + res.len;
+            continue; /* we are done handling this line */
         }
         if (strcmp(current_word, ".extern") == 0)
         {
             res = add_external_symbol(symbols, symbols_len, word);
             symbols_len = symbols_len + res.len;
-            continue;
+            continue; /* we are done handling this line */
         }
         if (strcmp(current_word, ".entry") == 0)
         {
-            continue;
+            continue; /* we are done handling this line */
         }
         if (has_symbol)
         {
             res = add_code_symbol(symbols, symbols_len, symbol_name, symbol_name_len, IC);
-            symbols_len = symbols_len + res.len;
+            symbols_len++;
+            IC = IC + res.len;
         }
 
         instruction_code = get_instruction_code(current_word);
@@ -142,7 +143,7 @@ AssemblerResult assembler_first_run(char *file_path)
         printf("symbol %s of type - %s with counter - %d\n", symbols[i].name, symbols[i].type, symbols[i].counter);
     }
 
-    for (i = 0; i < datas_len; i++)
+    for (i = 0; i < DC; i++)
     {
         Data data = datas[i];
         for (int j = 0; j < 14; j++)
