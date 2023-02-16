@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "string_utils.h"
-#include "macro.h"
 #include "config.h"
 #include "symbol.h"
 #include "error_handling.h"
@@ -18,7 +17,7 @@ AssemblerResult assembler_first_run(char *file_path) {
     int IC = 0, DC = 0, L = 0;                         /* current counter for instructions */
     int line_num = 0;                   /* start at 0, as we enter to while we increase by 1 */
     int has_symbol = 0, has_errors = 0; /* flags */
-    int current_word_len, symbol_name_len, symbols_len = 0;
+    int current_word_len, symbol_name_len, symbols_len = 0, instructions_len = 0;
     int datas_allocated = MAX_LINE_LEN, symbols_allocated = MAX_LINE_LEN, instructions_allocated = MAX_LINE_LEN;
     int instruction_code;
     Symbol *symbols;
@@ -48,8 +47,8 @@ AssemblerResult assembler_first_run(char *file_path) {
         /* preparations for new line */
         if (has_symbol && symbols_len == symbols_allocated) /* perform reallocation of symbols table if necessary */
         {
-            symbols = realloc(symbols, sizeof(Symbol) * (symbols_allocated + symbols_allocated));
             symbols_allocated = symbols_allocated + symbols_allocated;
+            symbols = realloc(symbols, sizeof(Symbol) * symbols_allocated);
         }
         has_symbol = 0;
         line_num++;
@@ -117,15 +116,25 @@ AssemblerResult assembler_first_run(char *file_path) {
             symbols_len++;
         }
 
+        if (instructions_len == instructions_allocated) {
+            instructions_allocated = instructions_allocated + instructions_allocated;
+            instructions = realloc(instructions, sizeof(Instruction) * instructions_allocated);
+        }
+
         instruction_code = get_instruction_code(current_word);
         if (instruction_code == -1) {
             log_error("instruction doesnt exist", no_macro_file_path, line_num);
             has_errors = 1;
+            continue;
         }
-
-//        handle_instruction()
-
-//        IC = IC + ; /* TODO: uncomment when we have the length of the instruction*/
+        res = handle_instruction(&instructions[instructions_len], instruction_code);
+        if (res.has_errors == 1) {
+            has_errors = 1;
+        } else {
+            instructions[instructions_len].IC = IC;
+            IC += instructions[instructions_len].size;
+            instructions_len++;
+        }
     }
 
     int i;
@@ -141,6 +150,15 @@ AssemblerResult assembler_first_run(char *file_path) {
         printf("\n");
     }
 
+    for (i = 0; i < instructions_len; i++) {
+        printf("instruction - op: %d __ IC: %d __ operand1: %s __ operand2: %s \n",
+               instructions[i].opcode,
+               instructions[i].IC,
+               instructions[i].first_operand,
+               instructions[i].second_operand
+        );
+    }
+
     if (line)
         free(line);
 
@@ -149,6 +167,8 @@ AssemblerResult assembler_first_run(char *file_path) {
 //    free(datas);
     assembler_res.datas = datas;
     assembler_res.symbols = symbols;
+    //  TODO: for some reason when i uncomment this line the `file` parameter from outside becomes null
+//    assembler_res.instructions = instructions;
     assembler_res.has_errors = has_errors;
     return assembler_res;
 }

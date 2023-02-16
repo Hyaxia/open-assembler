@@ -26,8 +26,8 @@ int dot_data_len(char *content) {
     return len;
 }
 
-Result
-store_dot_data(Data *data, char *content, char *no_macro_file_path, int line_num) { /* TODO: add error handling */
+/* TODO: add error handling */
+Result store_dot_data(Data *data, char *content, char *no_macro_file_path, int line_num) {
     Result res;
     long current_num;
     int len = 0;
@@ -54,8 +54,8 @@ store_dot_data(Data *data, char *content, char *no_macro_file_path, int line_num
     return res;
 }
 
-Result
-store_dot_string(Data *data, char *content, char *no_macro_file_path, int line_num) { /* TODO: add error handling */
+/* TODO: add error handling */
+Result store_dot_string(Data *data, char *content, char *no_macro_file_path, int line_num) {
     Result res;
     int len = 0;
     char *word = strtok(NULL, " ");

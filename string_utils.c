@@ -127,12 +127,20 @@ int remove_last_char(char *dest, char *src, int word_len) {
 }
 
 int is_all_spaces_or_newline(char *word, int word_len) {
-    int index;
-    for (index = 0; index < word_len; index++) {
-        if (isspace(*word) != 0 || *word == '\n' || *word == '\0') {
-            continue;
+//    int index;
+//    for (index = 0; index < word_len; index++) {
+//        if (isspace(*(word + index)) != 0 || *(word + index) == '\n' || *(word + index) == '\0') {
+//            continue;
+//        }
+//        return 0;
+//    }
+//    return 1;
+    int i = 0;
+    while (*(word + i) != '\0' && i < word_len) {
+        if (!isspace((unsigned char) *(word + i))) {
+            return 0;
         }
-        return 0;
+        i++;
     }
     return 1;
 }
