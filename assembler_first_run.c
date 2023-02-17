@@ -154,8 +154,8 @@ AssemblerResult assembler_first_run(char *file_path) {
 
     printf("\n__instructions are__\n");
     for (i = 0; i < instructions_len; i++) {
-        printf("instruction - op: %d __ IC: %d __ operand1: %s __ operand2: %s __ symbol: %s __ param1: %s __ param2: %s \n",
-               instructions[i].opcode,
+        printf("instruction - op: %s __ IC: %d __ operand1: %s __ operand2: %s __ symbol: %s __ param1: %s __ param2: %s \n",
+               instruction_names[instructions[i].opcode],
                instructions[i].IC,
                instructions[i].first_operand,
                instructions[i].second_operand,

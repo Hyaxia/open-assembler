@@ -3,17 +3,17 @@
 #include "string_utils.h"
 #include <stdio.h>
 
-char *instructions[16] = {
+char *instruction_names[16] = {
         "mov", "cmp", "add", "sub", "not", "clr",
         "lea", "inc", "dec", "jmp", "bne", "red",
         "prn", "jsr", "rts", "stop"};
 
-char *registers[8] = {"r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7"};
+char *register_names[8] = {"r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7"};
 
 int get_instruction_code(char *word) {
     int code;
     for (code = mov; code <= stop; code++) {
-        if (strcmp(instructions[code], word) == 0) {
+        if (strcmp(instruction_names[code], word) == 0) {
             return code;
         }
     }
@@ -55,7 +55,7 @@ int is_immediate(char *word) {
 
 int is_register(char *word) {
     for (int reg = r0; reg <= r7; reg++) {
-        if (strcmp(registers[reg], word) == 0) {
+        if (strcmp(register_names[reg], word) == 0) {
             return 1;
         }
     }

@@ -49,6 +49,9 @@ enum InstructionRegister {
     r7
 };
 
+extern char *instruction_names[16];
+extern char *register_names[8];
+
 /* returns the instruction code, -1 if the instruction is not recognized */
 int get_instruction_code(char *word);
 
