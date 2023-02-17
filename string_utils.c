@@ -100,26 +100,6 @@ void replace_extension(char *new_path, char *original_path, char *new_extension)
     strcat(new_path, new_extension);
 }
 
-int get_first_word(char *first_word, char *line, int line_len) {
-    int word_size = 0, index = 0;
-    while (isspace(*line) && index < line_len && *line != '\n') {
-        line++;
-        index++;
-    }
-    if (index + 1 == line_len) /* only spaces */
-    {
-        return word_size;
-    }
-    while (!isspace(*line) && index < line_len && *line != '\n') {
-        *first_word = *line;
-        first_word++;
-        line++;
-        word_size++;
-    }
-    *first_word = '\0';
-    return word_size;
-}
-
 int remove_last_char(char *dest, char *src, int word_len) {
     strcpy(dest, src);
     *(dest + word_len - 1) = '\0';
@@ -127,14 +107,6 @@ int remove_last_char(char *dest, char *src, int word_len) {
 }
 
 int is_all_spaces_or_newline(char *word, int word_len) {
-//    int index;
-//    for (index = 0; index < word_len; index++) {
-//        if (isspace(*(word + index)) != 0 || *(word + index) == '\n' || *(word + index) == '\0') {
-//            continue;
-//        }
-//        return 0;
-//    }
-//    return 1;
     int i = 0;
     while (*(word + i) != '\0' && i < word_len) {
         if (!isspace((unsigned char) *(word + i))) {
@@ -143,4 +115,14 @@ int is_all_spaces_or_newline(char *word, int word_len) {
         i++;
     }
     return 1;
+}
+
+int includes_brackets(char *word) {
+    while (*word != '\0') {
+        if (*word == '(') {
+            return 1;
+        }
+        word++;
+    }
+    return 0;
 }

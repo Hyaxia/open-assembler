@@ -25,6 +25,7 @@ endmcr
 sub r1, r4
 inc K
 
+jmp MAIN
 
 mov S1.2 ,r3
 bne L3
@@ -37,6 +38,7 @@ LENGTH: .data 6, -9  ,+15, 2  ,1
 K: .data 22
 m1
 
+jsr LOOP(#1,#5)
 
 m5
 m1

@@ -1,6 +1,7 @@
 #include <string.h>
 #include "instruction.h"
 #include "string_utils.h"
+#include <stdio.h>
 
 char *instructions[16] = {
         "mov", "cmp", "add", "sub", "not", "clr",
@@ -61,6 +62,11 @@ int is_register(char *word) {
     return 0;
 }
 
+void extract_word(char *dest, char *delimiter) {
+    char *word = strtok(NULL, delimiter);
+    word_trim_spaces(dest, word);
+}
+
 void extract_single_operand(char *operand) {
     char *word = strtok(NULL, ",");
     word_trim_spaces(operand, word);
@@ -96,11 +102,35 @@ void handle_instruction_without_operands(Instruction *instruction, int instructi
 }
 
 void handle_instruction_with_one_operand(Instruction *instruction, int instruction_code) {
-    extract_single_operand(instruction->first_operand);
-    instruction->first_operand_address_type = handle_address_type(instruction->first_operand);
-    instruction->size = 2;
+    char *line, *operand, *first_parameter, *second_parameter, *symbol;
+    if (instruction_code == jsr || instruction_code == bne || instruction_code == jmp) {
+        line = strtok(NULL, ""); /* get the rest of the line */
+        if (includes_brackets(line)) { /* check if we have parameters */
+            /* TODO: add validation that the structure of the instruction is correct (brackets and backticks and such...) */
+            symbol = strtok(line, "(");
+            first_parameter = strtok(NULL, ",");
+            second_parameter = strtok(NULL, ")"); /* second parameter without the closing bracket */
+            word_trim_spaces(instruction->symbol_name, symbol);
+            word_trim_spaces(instruction->first_param, first_parameter);
+            word_trim_spaces(instruction->second_param, second_parameter);
+            instruction->first_param_address_type = handle_address_type(instruction->first_param);
+            instruction->second_param_address_type = handle_address_type(instruction->second_param);
+            instruction->size = 3;
+            if (instruction->first_param_address_type != 3 || instruction->second_param_address_type != 3) {
+                instruction->size++;
+            }
+        } else { /* instruction without parameters */
+            operand = strtok(line, ",");
+            word_trim_spaces(instruction->first_operand, operand);
+            instruction->first_operand_address_type = handle_address_type(instruction->first_operand);
+            instruction->size = 2;
+        }
+    } else {
+        extract_single_operand(instruction->first_operand);
+        instruction->first_operand_address_type = handle_address_type(instruction->first_operand);
+        instruction->size = 2;
+    }
 }
-
 
 Result handle_instruction(Instruction *instruction, int instruction_code) {
     Result res;

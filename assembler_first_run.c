@@ -138,10 +138,12 @@ AssemblerResult assembler_first_run(char *file_path) {
     }
 
     int i;
+    printf("\n__symbols are__\n");
     for (i = 0; i < symbols_len; i++) {
         printf("symbol %s of type - %s with counter - %d\n", symbols[i].name, symbols[i].type, symbols[i].counter);
     }
 
+    printf("\n__data is__\n");
     for (i = 0; i < DC; i++) {
         Data data = datas[i];
         for (int j = 0; j < 14; j++) {
@@ -150,12 +152,16 @@ AssemblerResult assembler_first_run(char *file_path) {
         printf("\n");
     }
 
+    printf("\n__instructions are__\n");
     for (i = 0; i < instructions_len; i++) {
-        printf("instruction - op: %d __ IC: %d __ operand1: %s __ operand2: %s \n",
+        printf("instruction - op: %d __ IC: %d __ operand1: %s __ operand2: %s __ symbol: %s __ param1: %s __ param2: %s \n",
                instructions[i].opcode,
                instructions[i].IC,
                instructions[i].first_operand,
-               instructions[i].second_operand
+               instructions[i].second_operand,
+               instructions[i].symbol_name,
+               instructions[i].first_param,
+               instructions[i].second_param
         );
     }
 

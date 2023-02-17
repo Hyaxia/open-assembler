@@ -10,8 +10,9 @@ typedef struct {
     char second_operand[MAX_LINE_LEN];
     int first_operand_address_type;
     int second_operand_address_type;
-    char c_first_param[MAX_LINE_LEN];
-    char c_second_param[MAX_LINE_LEN];
+    char symbol_name[MAX_LINE_LEN];
+    char first_param[MAX_LINE_LEN];
+    char second_param[MAX_LINE_LEN];
     int first_param_address_type;
     int second_param_address_type;
     int size;

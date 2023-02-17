@@ -10,9 +10,6 @@ int has_word(char *line, char *word, int word_len);
 /* a method that replaces file path with a new extension and puts the result into `new_path` */
 void replace_extension(char *new_path, char *original_path, char *new_extension);
 
-/* a method that sets `first_word` to a string equal to the first word in the line and returns the length of the first word */
-int get_first_word(char *first_word, char *line, int line_len);
-
 /* a method that copies a string from src to dest and removes the last char from dest */
 int remove_last_char(char *dest, char *src, int word_len);
 
@@ -21,5 +18,8 @@ int is_all_spaces_or_newline(char *word, int word_len);
 
 /* trim leading and trailing spaces around a word */
 int word_trim_spaces(char *out, char *str);
+
+/* returns 1 if there are brackets in the string, otherwise 0 */
+int includes_brackets(char *word);
 
 #endif /* STRING_UTILS_H_ */
