@@ -5,7 +5,7 @@
 #include "data.h"
 #include "instruction.h"
 
-typedef struct AssemblerResult {
+typedef struct {
     int has_errors;
     Symbol *symbols;
     Data *datas;

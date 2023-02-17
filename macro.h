@@ -7,7 +7,7 @@
 #define MACRO_END_LEN 6
 #define MACRO_MAX_LENGTH 80
 
-typedef struct Macro {
+typedef struct {
     char *name;
     char *content;
     int content_size;

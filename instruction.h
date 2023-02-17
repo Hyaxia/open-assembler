@@ -4,7 +4,7 @@
 #include "config.h"
 
 
-typedef struct Instruction {
+typedef struct {
     int opcode;
     char first_operand[MAX_LINE_LEN];
     char second_operand[MAX_LINE_LEN];

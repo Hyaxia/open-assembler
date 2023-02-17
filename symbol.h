@@ -6,7 +6,7 @@
 
 #include "config.h"
 
-typedef struct Symbol {
+typedef struct {
     char *name;
     int counter;
     char *type;
