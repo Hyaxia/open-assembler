@@ -14,7 +14,7 @@ AssemblerResult assembler_first_run(char *file_path) {
     FILE *fp;
     size_t len = 0;
     char *line = NULL, *no_macro_file_path, *current_word, *symbol_name, *word;
-    int IC = 0, DC = 0, L = 0;                         /* current counter for instructions */
+    int IC = 0, DC = 0;                 /* current counter for instructions */
     int line_num = 0;                   /* start at 0, as we enter to while we increase by 1 */
     int has_symbol = 0, has_errors = 0; /* flags */
     int current_word_len, symbol_name_len, symbols_len = 0, instructions_len = 0;
@@ -154,12 +154,11 @@ AssemblerResult assembler_first_run(char *file_path) {
 
     printf("\n__instructions are__\n");
     for (i = 0; i < instructions_len; i++) {
-        printf("instruction - op: %s __ IC: %d __ operand1: %s __ operand2: %s __ symbol: %s __ param1: %s __ param2: %s \n",
+        printf("instruction - op: %s __ IC: %d __ operand1: %s __ operand2: %s __ param1: %s __ param2: %s \n",
                instruction_names[instructions[i].opcode],
                instructions[i].IC,
                instructions[i].first_operand,
                instructions[i].second_operand,
-               instructions[i].symbol_name,
                instructions[i].first_param,
                instructions[i].second_param
         );
@@ -167,14 +166,14 @@ AssemblerResult assembler_first_run(char *file_path) {
 
     if (line)
         free(line);
-
+    free(current_word);
+    free(symbol_name);
     free(no_macro_file_path);
     fclose(fp);
-//    free(datas);
+
     assembler_res.datas = datas;
+    assembler_res.instructions = instructions;
     assembler_res.symbols = symbols;
-    //  TODO: for some reason when i uncomment this line the `file` parameter from outside becomes null
-//    assembler_res.instructions = instructions;
     assembler_res.has_errors = has_errors;
     return assembler_res;
 }

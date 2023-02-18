@@ -107,12 +107,13 @@ void handle_instruction_with_one_operand(Instruction *instruction, int instructi
         line = strtok(NULL, ""); /* get the rest of the line */
         if (includes_brackets(line)) { /* check if we have parameters */
             /* TODO: add validation that the structure of the instruction is correct (brackets and backticks and such...) */
-            symbol = strtok(line, "(");
+            operand = strtok(line, "(");
             first_parameter = strtok(NULL, ",");
             second_parameter = strtok(NULL, ")"); /* second parameter without the closing bracket */
-            word_trim_spaces(instruction->symbol_name, symbol);
+            word_trim_spaces(instruction->first_operand, operand);
             word_trim_spaces(instruction->first_param, first_parameter);
             word_trim_spaces(instruction->second_param, second_parameter);
+            instruction->first_operand_address_type = handle_address_type(instruction->first_operand);
             instruction->first_param_address_type = handle_address_type(instruction->first_param);
             instruction->second_param_address_type = handle_address_type(instruction->second_param);
             instruction->size = 3;
@@ -134,8 +135,9 @@ void handle_instruction_with_one_operand(Instruction *instruction, int instructi
 
 Result handle_instruction(Instruction *instruction, int instruction_code) {
     Result res;
+    int num_of_operands;
     instruction->opcode = instruction_code;
-    int num_of_operands = get_num_of_operands(instruction_code);
+    num_of_operands = get_num_of_operands(instruction_code);
     if (num_of_operands == 0) {
         handle_instruction_without_operands(instruction, instruction_code);
     } else if (num_of_operands == 1) {

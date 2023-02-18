@@ -6,17 +6,18 @@
 
 typedef struct {
     int opcode;
+    int size; /* expected number of machine code lines when translating instruction */
+    int IC; /* instruction counter value */
+    /* details of the first and second operands (if exists) */
     char first_operand[MAX_LINE_LEN];
     char second_operand[MAX_LINE_LEN];
     int first_operand_address_type;
     int second_operand_address_type;
-    char symbol_name[MAX_LINE_LEN];
+    /* details of the first and second parameters (if exists) */
     char first_param[MAX_LINE_LEN];
     char second_param[MAX_LINE_LEN];
     int first_param_address_type;
     int second_param_address_type;
-    int size;
-    int IC;
 } Instruction;
 
 enum InstructionCode {
@@ -38,7 +39,7 @@ enum InstructionCode {
     stop
 };
 
-enum InstructionRegister {
+enum RegisterCode {
     r0,
     r1,
     r2,
