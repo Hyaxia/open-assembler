@@ -135,33 +135,6 @@ AssemblerResult assembler_first_run(char *file_path) {
         instructions_len++;
     }
 
-    int i;
-    printf("\n__symbols are__\n");
-    for (i = 0; i < symbols_len; i++) {
-        printf("symbol %s of type - %s with counter - %d\n", symbols[i].name, symbols[i].type, symbols[i].counter);
-    }
-
-    printf("\n__data is__\n");
-    for (i = 0; i < DC; i++) {
-        Data data = datas[i];
-        for (int j = 0; j < 14; j++) {
-            printf("%d", data.code[j]);
-        }
-        printf("\n");
-    }
-
-    printf("\n__instructions are__\n");
-    for (i = 0; i < instructions_len; i++) {
-        printf("instruction - op: %s __ IC: %d __ operand1: %s __ operand2: %s __ param1: %s __ param2: %s \n",
-               instruction_names[instructions[i].opcode],
-               instructions[i].IC,
-               instructions[i].first_operand,
-               instructions[i].second_operand,
-               instructions[i].first_param,
-               instructions[i].second_param
-        );
-    }
-
     if (line)
         free(line);
     free(current_word);
@@ -170,8 +143,11 @@ AssemblerResult assembler_first_run(char *file_path) {
     fclose(fp);
 
     assembler_res.datas = datas;
+    assembler_res.datas_len = DC;
     assembler_res.instructions = instructions;
+    assembler_res.instructions_len = instructions_len;
     assembler_res.symbols = symbols;
+    assembler_res.symbols_len = symbols_len;
     assembler_res.has_errors = has_errors;
     return assembler_res;
 }

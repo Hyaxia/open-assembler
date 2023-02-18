@@ -2,6 +2,38 @@
 #include "pre_assembler.h"
 #include "assembler_first_run.h"
 #include "assembler.h"
+#include "instruction.h"
+
+/* TODO: remove this func after development is done*/
+void print_result(AssemblerResult res) {
+    int i, j;
+    printf("\n__symbols are__\n");
+    for (i = 0; i < res.symbols_len; i++) {
+        printf("symbol %s of type - %s with counter - %d\n", res.symbols[i].name, res.symbols[i].type,
+               res.symbols[i].counter);
+    }
+
+    printf("\n__data is__\n");
+    for (i = 0; i < res.datas_len; i++) {
+        Data data = res.datas[i];
+        for (j = 0; j < 14; j++) {
+            printf("%d", data.code[j]);
+        }
+        printf("\n");
+    }
+
+    printf("\n__instructions are__\n");
+    for (i = 0; i < res.instructions_len; i++) {
+        printf("instruction - op: %s __ IC: %d __ operand1: %s __ operand2: %s __ param1: %s __ param2: %s \n",
+               instruction_names[res.instructions[i].opcode],
+               res.instructions[i].IC,
+               res.instructions[i].first_operand,
+               res.instructions[i].second_operand,
+               res.instructions[i].first_param,
+               res.instructions[i].second_param
+        );
+    }
+}
 
 int main(int argc, char *argv[]) {
     AssemblerResult res;
@@ -23,6 +55,7 @@ int main(int argc, char *argv[]) {
         if (res.has_errors) {
             printf("file %s has errors\n", *file_name);
         }
+        print_result(res);
         printf("\n\nfinished handling %s\n", *file_name);
     }
 

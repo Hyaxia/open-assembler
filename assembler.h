@@ -8,8 +8,11 @@
 typedef struct {
     int has_errors;
     Symbol *symbols;
+    int symbols_len;
     Data *datas;
+    int datas_len;
     Instruction *instructions;
+    int instructions_len;
 } AssemblerResult;
 
 #endif /* ASSEMBLER_H_ */
