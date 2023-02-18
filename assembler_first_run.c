@@ -44,13 +44,7 @@ AssemblerResult assembler_first_run(char *file_path) {
     instructions = malloc(sizeof(Instruction) * instructions_allocated);
 
     while ((getline(&line, &len, fp)) != -1) {
-        /* preparations for new line */
-        if (has_symbol && symbols_len == symbols_allocated) /* perform reallocation of symbols table if necessary */
-        {
-            symbols_allocated = symbols_allocated + symbols_allocated;
-            symbols = realloc(symbols, sizeof(Symbol) * symbols_allocated);
-        }
-        has_symbol = 0;
+        has_symbol = 0; /* turn symbol flag off */
         line_num++;
         /* here starts the logic for processing the line */
         if (is_all_spaces_or_newline(line, (int) len) == 1) {
@@ -60,6 +54,11 @@ AssemblerResult assembler_first_run(char *file_path) {
         current_word_len = word_trim_spaces(current_word, word);
         if (is_symbol_deinition(current_word, current_word_len)) /* handle symbol */
         {
+            if (symbols_len == symbols_allocated) /* perform reallocation of symbols table if necessary */
+            {
+                symbols_allocated = symbols_allocated + symbols_allocated;
+                symbols = realloc(symbols, sizeof(Symbol) * symbols_allocated);
+            }
             symbol_name_len = remove_last_char(symbol_name, current_word,
                                                current_word_len); /* we want to remove the `:` char */
             if (!is_symbol_name_valid(symbol_name, symbol_name_len)) {
@@ -72,7 +71,7 @@ AssemblerResult assembler_first_run(char *file_path) {
                 has_errors = 1;
                 continue;
             }
-            has_symbol = 1;
+            has_symbol = 1; /* turn the symbol flag on*/
         }
         if (has_symbol) {
             word = strtok(NULL, " "); /* we already saved the symbol name, so move to the next value */
@@ -111,12 +110,12 @@ AssemblerResult assembler_first_run(char *file_path) {
         if (strcmp(current_word, ".entry") == 0) {
             continue; /* we are done handling this line */
         }
-        if (has_symbol) {
+        if (has_symbol) { /* add symbol of type `code` */
             res = add_code_symbol(symbols, symbols_len, symbol_name, symbol_name_len, IC);
             symbols_len++;
         }
 
-        if (instructions_len == instructions_allocated) {
+        if (instructions_len == instructions_allocated) { /* make sure we have enough allocated instructions */
             instructions_allocated = instructions_allocated + instructions_allocated;
             instructions = realloc(instructions, sizeof(Instruction) * instructions_allocated);
         }

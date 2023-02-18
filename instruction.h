@@ -46,7 +46,7 @@ int get_instruction_code(char *word);
 /* returns number of operands for the relevant instruction code, if instruction doesnt exist returns -1 */
 int get_num_of_operands(int instruction_code);
 
-/* receives the relevant instruction and stores it into an Instruction object in a convenient way */
+/* parse an instruction into an `Instruction` object */
 Result handle_instruction(Instruction *instruction, int instruction_code, int IC);
 
 #endif /* INSRTUCTION_H_ */
