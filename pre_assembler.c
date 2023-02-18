@@ -5,7 +5,7 @@
 #include "macro.h"
 #include "pre_assembler.h"
 #include "string_utils.h"
-#include "config.h"
+#include "global.h"
 #include "error_handling.h"
 
 int pre_assembler(char *file_path) {

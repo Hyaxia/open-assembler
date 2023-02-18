@@ -4,7 +4,7 @@
 #define SYMBOL_MAX_LEN 31 /* 30 + 1 which is the null terminator `\0` */
 #define SYMBOL_TYPE_MAX_LEN 10
 
-#include "config.h"
+#include "global.h"
 
 typedef struct {
     char *name;

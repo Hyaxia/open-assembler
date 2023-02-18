@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "string_utils.h"
-#include "config.h"
+#include "global.h"
 #include "symbol.h"
 #include "error_handling.h"
 #include "pre_assembler.h"
@@ -127,14 +127,13 @@ AssemblerResult assembler_first_run(char *file_path) {
             has_errors = 1;
             continue;
         }
-        res = handle_instruction(&instructions[instructions_len], instruction_code);
+        res = handle_instruction(&instructions[instructions_len], instruction_code, IC);
         if (res.has_errors == 1) {
             has_errors = 1;
-        } else {
-            instructions[instructions_len].IC = IC;
-            IC += instructions[instructions_len].size;
-            instructions_len++;
+            continue;
         }
+        IC += res.len;
+        instructions_len++;
     }
 
     int i;

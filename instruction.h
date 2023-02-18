@@ -1,12 +1,11 @@
 #ifndef INSRTUCTION_H_ /* Include guard */
 #define INSRTUCTION_H_
 
-#include "config.h"
+#include "global.h"
 
 
 typedef struct {
     int opcode;
-    int size; /* expected number of machine code lines when translating instruction */
     int IC; /* instruction counter value */
     /* details of the first and second operands (if exists) */
     char first_operand[MAX_LINE_LEN];
@@ -39,19 +38,7 @@ enum InstructionCode {
     stop
 };
 
-enum RegisterCode {
-    r0,
-    r1,
-    r2,
-    r3,
-    r4,
-    r5,
-    r6,
-    r7
-};
-
 extern char *instruction_names[16];
-extern char *register_names[8];
 
 /* returns the instruction code, -1 if the instruction is not recognized */
 int get_instruction_code(char *word);
@@ -60,6 +47,6 @@ int get_instruction_code(char *word);
 int get_num_of_operands(int instruction_code);
 
 /* receives the relevant instruction and stores it into an Instruction object in a convenient way */
-Result handle_instruction(Instruction *instruction, int instruction_code);
+Result handle_instruction(Instruction *instruction, int instruction_code, int IC);
 
 #endif /* INSRTUCTION_H_ */

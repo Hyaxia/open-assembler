@@ -13,7 +13,4 @@ Result store_dot_data(Data *data, char *content, char *no_macro_file_path, int l
 /* receives the relevant data and stores it into a Data object in a convenient way */
 Result store_dot_string(Data *data, char *content, char *no_macro_file_path, int line_num);
 
-/* get the length of the dot data statement */
-int dot_data_len(char *content);
-
 #endif /* DATA_H_ */

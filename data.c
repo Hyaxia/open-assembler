@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "string_utils.h"
-#include "config.h"
+#include "global.h"
 #include "error_handling.h"
 #include "data.h"
 
@@ -14,16 +14,6 @@ int num_to_code(int number, Data *data) {
         data->code[WORD_LEN - 1 - index] = current_digit; /* we populate the array from the end */
     }
     return 0;
-}
-
-int dot_data_len(char *content) {
-    int len = 0;
-    char *word = strtok(NULL, " ");
-    while (word != NULL) {
-        len++;
-        word = strtok(NULL, ",");
-    }
-    return len;
 }
 
 /* TODO: add error handling */

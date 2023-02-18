@@ -8,8 +8,6 @@ char *instruction_names[16] = {
         "lea", "inc", "dec", "jmp", "bne", "red",
         "prn", "jsr", "rts", "stop"};
 
-char *register_names[8] = {"r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7"};
-
 int get_instruction_code(char *word) {
     int code;
     for (code = mov; code <= stop; code++) {
@@ -92,9 +90,9 @@ Result handle_instruction_with_two_operands(Instruction *instruction, int instru
     extract_two_operands(instruction->first_operand, instruction->second_operand);
     instruction->first_operand_address_type = handle_address_type(instruction->first_operand);
     instruction->second_operand_address_type = handle_address_type(instruction->second_operand);
-    instruction->size = 2;
+    res.len = 2;
     if (instruction->first_operand_address_type != 3 || instruction->second_operand_address_type != 3) {
-        instruction->size++;
+        res.len++;
     }
     res.has_errors = 0;
     return res;
@@ -102,7 +100,7 @@ Result handle_instruction_with_two_operands(Instruction *instruction, int instru
 
 Result handle_instruction_without_operands(Instruction *instruction, int instruction_code) {
     Result res;
-    instruction->size = 1;
+    res.len = 1;
     res.has_errors = 0;
     return res;
 }
@@ -123,29 +121,30 @@ Result handle_instruction_with_one_operand(Instruction *instruction, int instruc
             instruction->first_operand_address_type = handle_address_type(instruction->first_operand);
             instruction->first_param_address_type = handle_address_type(instruction->first_param);
             instruction->second_param_address_type = handle_address_type(instruction->second_param);
-            instruction->size = 3;
+            res.len = 3;
             if (instruction->first_param_address_type != 3 || instruction->second_param_address_type != 3) {
-                instruction->size++;
+                res.len++;
             }
         } else { /* instruction without parameters */
             operand = strtok(line, ",");
             word_trim_spaces(instruction->first_operand, operand);
             instruction->first_operand_address_type = handle_address_type(instruction->first_operand);
-            instruction->size = 2;
+            res.len = 2;
         }
     } else {
         extract_single_operand(instruction->first_operand);
         instruction->first_operand_address_type = handle_address_type(instruction->first_operand);
-        instruction->size = 2;
+        res.len = 2;
     }
     res.has_errors = 0;
     return res;
 }
 
-Result handle_instruction(Instruction *instruction, int instruction_code) {
+Result handle_instruction(Instruction *instruction, int instruction_code, int IC) {
     Result res;
     int num_of_operands;
     instruction->opcode = instruction_code;
+    instruction->IC = IC;
     num_of_operands = get_num_of_operands(instruction_code);
     if (num_of_operands == 0) {
         res = handle_instruction_without_operands(instruction, instruction_code);

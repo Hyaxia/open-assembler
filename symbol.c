@@ -3,7 +3,7 @@
 #include <ctype.h>
 #include <string.h>
 #include "symbol.h"
-#include "config.h"
+#include "global.h"
 #include "string_utils.h"
 
 int is_symbol_defined(char *symbol_name, Symbol *symbols, int symbols_len) {
