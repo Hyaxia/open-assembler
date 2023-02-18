@@ -87,7 +87,8 @@ int handle_address_type(char *word) {
     return 1;
 }
 
-void handle_instruction_with_two_operands(Instruction *instruction, int instruction_code) {
+Result handle_instruction_with_two_operands(Instruction *instruction, int instruction_code) {
+    Result res;
     extract_two_operands(instruction->first_operand, instruction->second_operand);
     instruction->first_operand_address_type = handle_address_type(instruction->first_operand);
     instruction->second_operand_address_type = handle_address_type(instruction->second_operand);
@@ -95,13 +96,19 @@ void handle_instruction_with_two_operands(Instruction *instruction, int instruct
     if (instruction->first_operand_address_type != 3 || instruction->second_operand_address_type != 3) {
         instruction->size++;
     }
+    res.has_errors = 0;
+    return res;
 }
 
-void handle_instruction_without_operands(Instruction *instruction, int instruction_code) {
+Result handle_instruction_without_operands(Instruction *instruction, int instruction_code) {
+    Result res;
     instruction->size = 1;
+    res.has_errors = 0;
+    return res;
 }
 
-void handle_instruction_with_one_operand(Instruction *instruction, int instruction_code) {
+Result handle_instruction_with_one_operand(Instruction *instruction, int instruction_code) {
+    Result res;
     char *line, *operand, *first_parameter, *second_parameter, *symbol;
     if (instruction_code == jsr || instruction_code == bne || instruction_code == jmp) {
         line = strtok(NULL, ""); /* get the rest of the line */
@@ -131,6 +138,8 @@ void handle_instruction_with_one_operand(Instruction *instruction, int instructi
         instruction->first_operand_address_type = handle_address_type(instruction->first_operand);
         instruction->size = 2;
     }
+    res.has_errors = 0;
+    return res;
 }
 
 Result handle_instruction(Instruction *instruction, int instruction_code) {
@@ -139,11 +148,11 @@ Result handle_instruction(Instruction *instruction, int instruction_code) {
     instruction->opcode = instruction_code;
     num_of_operands = get_num_of_operands(instruction_code);
     if (num_of_operands == 0) {
-        handle_instruction_without_operands(instruction, instruction_code);
+        res = handle_instruction_without_operands(instruction, instruction_code);
     } else if (num_of_operands == 1) {
-        handle_instruction_with_one_operand(instruction, instruction_code);
+        res = handle_instruction_with_one_operand(instruction, instruction_code);
     } else {
-        handle_instruction_with_two_operands(instruction, instruction_code);
+        res = handle_instruction_with_two_operands(instruction, instruction_code);
     }
     return res;
 }
