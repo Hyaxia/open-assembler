@@ -5,7 +5,7 @@
 #include "instruction.h"
 
 /* TODO: remove this func after development is done*/
-void print_result(AssemblerResult res) {
+void print_result(AssemblerFirstRunResult res) {
     int i, j;
     printf("\n__symbols are__\n");
     for (i = 0; i < res.symbols_len; i++) {
@@ -36,7 +36,7 @@ void print_result(AssemblerResult res) {
 }
 
 int main(int argc, char *argv[]) {
-    AssemblerResult res;
+    AssemblerFirstRunResult res;
     int pre_assembler_result;
     char **file_name;
     if (argc < 2) {
@@ -56,6 +56,7 @@ int main(int argc, char *argv[]) {
             printf("file %s has errors\n", *file_name);
         }
         print_result(res);
+        res = assembler_second_run(res);
         printf("\n\nfinished handling %s\n", *file_name);
     }
 

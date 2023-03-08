@@ -10,7 +10,7 @@
 #include "instruction.h"
 #include "assembler.h"
 
-AssemblerResult assembler_first_run(char *file_path) {
+AssemblerFirstRunResult assembler_first_run(char *file_path) {
     FILE *fp;
     size_t len = 0;
     char *line = NULL, *no_macro_file_path, *current_word, *symbol_name, *word;
@@ -24,7 +24,7 @@ AssemblerResult assembler_first_run(char *file_path) {
     Data *datas;
     Instruction *instructions;
     Result res;
-    AssemblerResult assembler_res;
+    AssemblerFirstRunResult assembler_res;
 
     no_macro_file_path = malloc(sizeof(char) * (strlen(file_path) + strlen(PRE_ASSEMBLER_OUTPUT_EXTENSION)));
     replace_extension(no_macro_file_path, file_path, PRE_ASSEMBLER_OUTPUT_EXTENSION);

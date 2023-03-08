@@ -4,6 +4,6 @@
 #include "assembler.h"
 
 /* performs logic for first run of assembler */
-AssemblerResult assembler_first_run(char *file_path);
+AssemblerFirstRunResult assembler_first_run(char *file_path);
 
 #endif /* ASSEMBLER_FIRST_RUN_H_ */

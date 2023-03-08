@@ -13,6 +13,16 @@ typedef struct {
     int datas_len;
     Instruction *instructions;
     int instructions_len;
-} AssemblerResult;
+} AssemblerFirstRunResult;
+
+typedef struct {
+    int has_errors;
+    Data *datas;
+    int datas_len;
+    Symbol *symbols;
+    int symbols_len;
+    Data *instructions;
+    int instructions_len;
+} AssemblerSecondRunResult;
 
 #endif /* ASSEMBLER_H_ */
