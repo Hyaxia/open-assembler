@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "pre_assembler.h"
 #include "assembler_first_run.h"
+#include "assembler_second_run.h"
 #include "assembler.h"
 #include "instruction.h"
 
@@ -56,7 +57,7 @@ int main(int argc, char *argv[]) {
             printf("file %s has errors\n", *file_name);
         }
         print_result(res);
-        res = assembler_second_run(res);
+        assembler_second_run(res);
         printf("\n\nfinished handling %s\n", *file_name);
     }
 
