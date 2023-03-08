@@ -52,7 +52,8 @@ int is_immediate(char *word) {
 }
 
 int is_register(char *word) {
-    for (int reg = r0; reg <= r7; reg++) {
+    int reg = r0;
+    for ( reg = r0; reg <= r7; reg++) {
         if (strcmp(register_names[reg], word) == 0) {
             return 1;
         }

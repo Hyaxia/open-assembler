@@ -2,6 +2,7 @@
 #define CONFIG_H_
 
 #define MAX_LINE_LEN 81 /* length including `\0` at the end */
+#define NEW_LINE '\n'
 
 typedef struct Result {
     int len;

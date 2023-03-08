@@ -1,0 +1,25 @@
+# ninja log v5
+30	63	1678312679961450456	CMakeFiles/assembler.dir/macro.c.o	e00a99572269bf45
+45	95	1678312679994783432	CMakeFiles/assembler.dir/string_utils.c.o	dfbdd9ea95bacdd5
+33	58	1678313364825654038	assembler	232bc8b71a10da1f
+49	88	1678312679988116837	CMakeFiles/assembler.dir/symbol.c.o	fc10d4c731690cef
+1	49	1678312679948117266	CMakeFiles/assembler.dir/data.c.o	5ef3a936daea2ba7
+2	20	1678312679918117587	CMakeFiles/assembler.dir/global.c.o	36876c3a9667c97b
+20	72	1678312679971450349	CMakeFiles/assembler.dir/instruction.c.o	421f57c47da16f13
+0	30	1678313327212586459	CMakeFiles/assembler.dir/assembler.c.o	82745f4746d1994
+0	33	1678313364802320868	CMakeFiles/assembler.dir/assembler_second_run.c.o	a7296394621a4ef6
+2	30	1678312679928117480	CMakeFiles/assembler.dir/error_handling.c.o	d93c22474c5d9a22
+1	40	1678312758707302427	CMakeFiles/assembler.dir/assembler_first_run.c.o	d5146f590899ed38
+1	52	1678312758720635627	CMakeFiles/assembler.dir/pre_assembler.c.o	8e5fb6ef60ceab90
+2	18	1678313834632571212	CMakeFiles/assembler.dir/global.c.o	256c170a0e929648
+1	39	1678313834652571088	CMakeFiles/assembler.dir/assembler.c.o	f7486d2df2857a00
+2	49	1678313834662571025	CMakeFiles/assembler.dir/error_handling.c.o	74e177302950a573
+2	52	1678313834665904338	CMakeFiles/assembler.dir/assembler_second_run.c.o	14e7ab63eeff94c8
+1	54	1678313834669237650	CMakeFiles/assembler.dir/data.c.o	aa4ad85cbad16ef2
+18	64	1678313834679237589	CMakeFiles/assembler.dir/instruction.c.o	ad1cc81c8cfeb879
+1	67	1678313834682570901	CMakeFiles/assembler.dir/assembler_first_run.c.o	9978e94f7162fde4
+39	88	1678313834702570777	CMakeFiles/assembler.dir/macro.c.o	c265e80d1a8c97dc
+54	107	1678313834722570651	CMakeFiles/assembler.dir/symbol.c.o	1555b1afe100919a
+49	108	1678313834722570651	CMakeFiles/assembler.dir/pre_assembler.c.o	9979d263651030a1
+52	108	1678313834722570651	CMakeFiles/assembler.dir/string_utils.c.o	761d3ee95b855707
+108	136	1678313834749237152	assembler	232bc8b71a10da1f
