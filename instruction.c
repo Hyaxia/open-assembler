@@ -76,14 +76,13 @@ void extract_two_operands(char *first_operand, char *second_operand) {
     extract_single_operand(second_operand);
 }
 
-int handle_address_type(char *word) {
-    if (is_immediate(word)) {
-        return 0;
-    }
-    if (is_register(word)) {
-        return 3;
-    }
-    return 1;
+AddressType handle_address_type(char *word) {
+    if (is_immediate(word))
+        return Immediate;
+    else if (is_register(word))
+        return Register;
+    else
+        return Tag;
 }
 
 Result handle_instruction_with_two_operands(Instruction *instruction, int instruction_code) {
@@ -92,7 +91,7 @@ Result handle_instruction_with_two_operands(Instruction *instruction, int instru
     instruction->first_operand_address_type = handle_address_type(instruction->first_operand);
     instruction->second_operand_address_type = handle_address_type(instruction->second_operand);
     res.len = 2;
-    if (instruction->first_operand_address_type != 3 || instruction->second_operand_address_type != 3) {
+    if (instruction->first_operand_address_type != Register || instruction->second_operand_address_type != Register) {
         res.len++;
     }
     res.has_errors = 0;
@@ -123,7 +122,7 @@ Result handle_instruction_with_one_operand(Instruction *instruction, int instruc
             instruction->first_param_address_type = handle_address_type(instruction->first_param);
             instruction->second_param_address_type = handle_address_type(instruction->second_param);
             res.len = 3;
-            if (instruction->first_param_address_type != 3 || instruction->second_param_address_type != 3) {
+            if (instruction->first_param_address_type != Register || instruction->second_param_address_type != Register) {
                 res.len++;
             }
         } else { /* instruction without parameters */

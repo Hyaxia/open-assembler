@@ -4,19 +4,26 @@
 #include "global.h"
 
 
+
+typedef enum AddressType{
+    Immediate = 0,
+    Tag = 1,
+    Register = 3
+} AddressType ;
+
 typedef struct {
     int opcode;
     int IC; /* instruction counter value */
     /* details of the first and second operands (if exists) */
     char first_operand[MAX_LINE_LEN];
     char second_operand[MAX_LINE_LEN];
-    int first_operand_address_type;
-    int second_operand_address_type;
+    AddressType first_operand_address_type;
+    AddressType second_operand_address_type;
     /* details of the first and second parameters (if exists) */
     char first_param[MAX_LINE_LEN];
     char second_param[MAX_LINE_LEN];
-    int first_param_address_type;
-    int second_param_address_type;
+    AddressType first_param_address_type;
+    AddressType second_param_address_type;
 } Instruction;
 
 enum InstructionCode {
