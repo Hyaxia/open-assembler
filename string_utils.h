@@ -14,7 +14,7 @@ void replace_extension(char *new_path, char *original_path, char *new_extension)
 int remove_last_char(char *dest, char *src, int word_len);
 
 /* a method that returns 1 if the entire string is spaces, otherwise 0 */
-int is_all_spaces_or_newline(char *word, int word_len);
+int is_all_spaces_or_newline(char *word);
 
 /* trim leading and trailing spaces around a word */
 int word_trim_spaces(char *out, char *str);

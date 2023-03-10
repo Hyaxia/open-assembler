@@ -12,7 +12,6 @@
 
 AssemblerFirstRunResult assembler_first_run(char *file_path) {
     FILE *fp;
-    size_t len = 0;
     char *line = NULL, *no_macro_file_path, *current_word, *symbol_name, *word;
     int IC = 0, DC = 0;                 /* current counter for instructions */
     int line_num = 0;                   /* start at 0, as we enter to while we increase by 1 */
@@ -43,11 +42,11 @@ AssemblerFirstRunResult assembler_first_run(char *file_path) {
     datas = malloc(sizeof(Data) * datas_allocated);
     instructions = malloc(sizeof(Instruction) * instructions_allocated);
 
-    while ((getline(&line, &len, fp)) != -1) {
+    while (fgets(line, MAX_LINE_LEN, fp)) {
         has_symbol = 0; /* turn symbol flag off */
         line_num++;
         /* here starts the logic for processing the line */
-        if (is_all_spaces_or_newline(line, (int) len) == 1) {
+        if (is_all_spaces_or_newline(line) == 1) {
             continue;
         }
         word = strtok(line, " ");

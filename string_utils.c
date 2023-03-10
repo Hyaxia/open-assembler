@@ -106,9 +106,9 @@ int remove_last_char(char *dest, char *src, int word_len) {
     return word_len - 1;
 }
 
-int is_all_spaces_or_newline(char *word, int word_len) {
+int is_all_spaces_or_newline(char *word) {
     int i = 0;
-    while (*(word + i) != '\0' && i < word_len) {
+    while (*(word + i) != '\0') {
         if (!isspace((unsigned char) *(word + i))) {
             return 0;
         }
