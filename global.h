@@ -23,4 +23,10 @@ enum RegisterCode {
 
 extern char *register_names[8];
 
+typedef enum {
+    A,
+    E,
+    R
+}AER;
+
 #endif /* CONFIG_H_ */

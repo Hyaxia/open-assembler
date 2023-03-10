@@ -1,3 +1,4 @@
 *.o
 *.am
 .vscode
+cmake-build-debug/

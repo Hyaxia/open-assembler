@@ -6,14 +6,14 @@
 #include "global.h"
 #include "string_utils.h"
 
-int is_symbol_defined(char *symbol_name, Symbol *symbols, int symbols_len) {
+Symbol* get_symbol(char *symbol_name, Symbol *symbols, int symbols_len) {
     int index;
     for (index = 0; index < symbols_len; index++) {
         if (strcmp(symbols[index].name, symbol_name) == 0) {
-            return 1;
+            return &symbols[index];
         }
     }
-    return 0;
+    return NULL; /*not found*/
 }
 
 int is_symbol_definition(char *word, int word_len) {
@@ -40,17 +40,16 @@ int is_symbol_name_valid(char *word, int word_len) {
     return 1;
 }
 
-void add_symbol(Symbol *symbols, int symbols_len, char *symbol_name, int symbol_name_len, int counter, char *type) {
+void add_symbol(Symbol *symbols, int symbols_len, char *symbol_name, int symbol_name_len, int counter, SymbolType type) {
     symbols[symbols_len].counter = counter;
     symbols[symbols_len].name = malloc(sizeof(char) * symbol_name_len);
-    symbols[symbols_len].type = malloc(sizeof(char) * SYMBOL_TYPE_MAX_LEN);
     strcpy(symbols[symbols_len].name, symbol_name);
-    strcpy(symbols[symbols_len].type, type);
+    symbols[symbols_len].type = type;
+    /* TODO: add a check if there is already the name of the symbol. */
 }
-
 Result add_external_symbol(Symbol *symbols, int symbols_len, char *symbol_name, int symbol_name_len) {
     Result res;
-    add_symbol(symbols, symbols_len, symbol_name, symbol_name_len, 0, "external");
+    add_symbol(symbols, symbols_len, symbol_name, symbol_name_len, 0,External_Symbol );
     res.has_errors = 0;
     res.len = 1;
     return res;
@@ -58,7 +57,7 @@ Result add_external_symbol(Symbol *symbols, int symbols_len, char *symbol_name, 
 
 Result add_data_symbol(Symbol *symbols, int symbols_len, char *symbol_name, int symbol_name_len, int DC) {
     Result res;
-    add_symbol(symbols, symbols_len, symbol_name, symbol_name_len, DC, "data");
+    add_symbol(symbols, symbols_len, symbol_name, symbol_name_len, DC,Data_Symbol);
     res.has_errors = 0;
     res.len = 1;
     return res;
@@ -66,7 +65,7 @@ Result add_data_symbol(Symbol *symbols, int symbols_len, char *symbol_name, int 
 
 Result add_code_symbol(Symbol *symbols, int symbols_len, char *symbol_name, int symbol_name_len, int IC) {
     Result res;
-    add_symbol(symbols, symbols_len, symbol_name, symbol_name_len, IC, "code");
+    add_symbol(symbols, symbols_len, symbol_name, symbol_name_len, IC, Code_Symbol);
     res.has_errors = 0;
     res.len = 1;
     return res;

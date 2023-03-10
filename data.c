@@ -7,15 +7,20 @@
 #include "error_handling.h"
 #include "data.h"
 
-int num_to_code(int number, Data *data) {
+int num_to_code(int number, int *code, int number_size) {
     int index, current_digit;
     int mask = 1;
-    for (index = 0; index < WORD_LEN; index++) {
+    for (index = 0; index < number_size; index++) {
         current_digit = mask & (number >> index);
-        data->code[WORD_LEN - 1 - index] = current_digit; /* we populate the array from the end */
+        code[index] = current_digit; /* we populate the array from the end */
     }
     return 0;
 }
+
+int num_to_data(int number, Data *data) {
+    return num_to_code(number, data->code, WORD_LEN);
+}
+
 
 /* TODO: add error handling */
 Result store_dot_data(Data *data, char *content, char *no_macro_file_path, int line_num) {
@@ -34,7 +39,7 @@ Result store_dot_data(Data *data, char *content, char *no_macro_file_path, int l
         } else {
             current_num = strtol(current_word, NULL, 10);
         }
-        num_to_code(current_num, data);
+        num_to_data(current_num, data);
         data++;
         len++;
         word = strtok(NULL, ",");
@@ -60,7 +65,7 @@ Result store_dot_string(Data *data, char *content, char *no_macro_file_path, int
     word++;              /* skip first `"`" */
     while (*word != '"' && *word != EOL) /* loop until the end of the string */
     {
-        num_to_code((int) (*word), data);
+        num_to_data((int) (*word), data);
         data++;
         len++;
         word++;
@@ -71,7 +76,7 @@ Result store_dot_string(Data *data, char *content, char *no_macro_file_path, int
         res.len = 0;
         return res;
     }
-    num_to_code(0, data); /* add null terminator */
+    num_to_data(0, data); /* add null terminator */
     data++;
     len++;
     res.has_errors = 0;

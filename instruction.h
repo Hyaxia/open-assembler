@@ -6,24 +6,26 @@
 
 
 typedef enum AddressType{
-    Immediate = 0,
-    Tag = 1,
-    Register = 3
+    Immediate,
+    Tag,
+    Jump_with_params,
+    Register
 } AddressType ;
 
 typedef struct {
     int opcode;
     int IC; /* instruction counter value */
     /* details of the first and second operands (if exists) */
-    char first_operand[MAX_LINE_LEN];
-    char second_operand[MAX_LINE_LEN];
-    AddressType first_operand_address_type;
-    AddressType second_operand_address_type;
+    char src_operand[MAX_LINE_LEN];
+    char dest_operand[MAX_LINE_LEN];
+    AddressType src_operand_address_type;
+    AddressType dest_operand_address_type;
     /* details of the first and second parameters (if exists) */
     char first_param[MAX_LINE_LEN];
     char second_param[MAX_LINE_LEN];
     AddressType first_param_address_type;
     AddressType second_param_address_type;
+    int number_of_lines;
 } Instruction;
 
 enum InstructionCode {

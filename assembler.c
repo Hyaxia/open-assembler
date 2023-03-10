@@ -10,14 +10,14 @@ void print_result(AssemblerFirstRunResult res) {
     int i, j;
     printf("\n__symbols are__\n");
     for (i = 0; i < res.symbols_len; i++) {
-        printf("symbol %s of type - %s with counter - %d\n", res.symbols[i].name, res.symbols[i].type,
+        printf("symbol %s of type - %d with counter - %d\n", res.symbols[i].name, res.symbols[i].type,
                res.symbols[i].counter);
     }
 
     printf("\n__data is__\n");
     for (i = 0; i < res.datas_len; i++) {
         Data data = res.datas[i];
-        for (j = 0; j < 14; j++) {
+        for (j = 13; j >=0; j--) {
             printf("%d", data.code[j]);
         }
         printf("\n");
@@ -25,12 +25,17 @@ void print_result(AssemblerFirstRunResult res) {
 
     printf("\n__instructions are__\n");
     for (i = 0; i < res.instructions_len; i++) {
-        printf("instruction - op: %s __ IC: %d __ operand1: %s __ operand2: %s __ param1: %s __ param2: %s \n",
+        printf("instruction - op: %s __ IC: %d __ number_of_lines: %d __ src_operand(%d): %s __ dest_operand(%d): %s __ param1(%d): %s __ param2(%d): %s \n",
                instruction_names[res.instructions[i].opcode],
                res.instructions[i].IC,
-               res.instructions[i].first_operand,
-               res.instructions[i].second_operand,
+               res.instructions[i].number_of_lines,
+               res.instructions[i].src_operand_address_type,
+               res.instructions[i].src_operand,
+               res.instructions[i].dest_operand_address_type,
+               res.instructions[i].dest_operand,
+               res.instructions[i].first_param_address_type,
                res.instructions[i].first_param,
+               res.instructions[i].second_param_address_type,
                res.instructions[i].second_param
         );
     }

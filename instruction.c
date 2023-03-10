@@ -51,8 +51,8 @@ int is_immediate(char *word) {
 }
 
 int is_register(char *word) {
-    int reg = r0;
-    for (reg = r0; reg <= r7; reg++) {
+    int reg;
+    for ( reg = r0; reg <= r7; reg++) {
         if (strcmp(register_names[reg], word) == 0) {
             return 1;
         }
@@ -81,11 +81,11 @@ AddressType handle_address_type(char *word) {
 
 Result handle_instruction_with_two_operands(Instruction *instruction) {
     Result res;
-    extract_two_operands(instruction->first_operand, instruction->second_operand);
-    instruction->first_operand_address_type = handle_address_type(instruction->first_operand);
-    instruction->second_operand_address_type = handle_address_type(instruction->second_operand);
+    extract_two_operands(instruction->src_operand, instruction->dest_operand);
+    instruction->src_operand_address_type = handle_address_type(instruction->src_operand);
+    instruction->dest_operand_address_type = handle_address_type(instruction->dest_operand);
     res.len = 2;
-    if (instruction->first_operand_address_type != Register || instruction->second_operand_address_type != Register) {
+    if (instruction->src_operand_address_type != Register || instruction->dest_operand_address_type != Register) {
         res.len++;
     }
     res.has_errors = 0;
@@ -109,10 +109,10 @@ Result handle_instruction_with_one_operand(Instruction *instruction, int instruc
             operand = strtok(line, "(");
             first_parameter = strtok(NULL, ",");
             second_parameter = strtok(NULL, ")"); /* second parameter without the closing bracket */
-            word_trim_spaces(instruction->first_operand, operand);
+            word_trim_spaces(instruction->src_operand, operand);
             word_trim_spaces(instruction->first_param, first_parameter);
             word_trim_spaces(instruction->second_param, second_parameter);
-            instruction->first_operand_address_type = handle_address_type(instruction->first_operand);
+            instruction->src_operand_address_type = handle_address_type(instruction->src_operand);
             instruction->first_param_address_type = handle_address_type(instruction->first_param);
             instruction->second_param_address_type = handle_address_type(instruction->second_param);
             res.len = 3;
@@ -122,13 +122,13 @@ Result handle_instruction_with_one_operand(Instruction *instruction, int instruc
             }
         } else { /* instruction without parameters */
             operand = strtok(line, ",");
-            word_trim_spaces(instruction->first_operand, operand);
-            instruction->first_operand_address_type = handle_address_type(instruction->first_operand);
+            word_trim_spaces(instruction->src_operand, operand);
+            instruction->src_operand_address_type = handle_address_type(instruction->src_operand);
             res.len = 2;
         }
     } else {
-        extract_single_operand(instruction->first_operand);
-        instruction->first_operand_address_type = handle_address_type(instruction->first_operand);
+        extract_single_operand(instruction->src_operand);
+        instruction->src_operand_address_type = handle_address_type(instruction->src_operand);
         res.len = 2;
     }
     res.has_errors = 0;
@@ -148,6 +148,7 @@ Result handle_instruction(Instruction *instruction, int instruction_code, int IC
     } else {
         res = handle_instruction_with_two_operands(instruction);
     }
+    instruction->number_of_lines = res.len;
     return res;
 }
 

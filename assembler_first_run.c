@@ -66,7 +66,7 @@ AssemblerFirstRunResult assembler_first_run(char *file_path) {
                 has_errors = 1;
                 continue;
             }
-            if (is_symbol_defined(symbol_name, symbols, symbols_len)) {
+            if (get_symbol(symbol_name, symbols, symbols_len) != NULL) {
                 log_error("symbol already defined", no_macro_file_path, line_num);
                 has_errors = 1;
                 continue;
