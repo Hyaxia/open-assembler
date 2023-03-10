@@ -1,17 +1,18 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include "global.h"
 #include "string_utils.h"
 
 int word_trim_spaces(char *out, char *str) {
     int len = 0;
     int index = 0;
     int inside_word = 0;
-    while (str[index] != '\0' && str[index] != '\n') {
+    while (str[index] != EOL && str[index] != NEW_LINE) {
         if (isspace(str[index])) {
             if (inside_word) /* first space after word */
             {
-                out[len] = '\0';
+                out[len] = EOL;
                 return len;
             }
             index++;
@@ -24,7 +25,7 @@ int word_trim_spaces(char *out, char *str) {
         index++;
         len++;
     }
-    out[len] = '\0';
+    out[len] = EOL;
     return len;
 }
 
@@ -67,8 +68,8 @@ int has_word(char *line, char *word, int word_len) {
     if (found_pt == NULL) {
         return 0;
     }
-    if (!isspace(*right_side) && *right_side != '\n' &&
-        *right_side != '\0') /* there is continuation of the word from the right */
+    if (!isspace(*right_side) && *right_side != NEW_LINE &&
+        *right_side != EOL) /* there is continuation of the word from the right */
     {
         return 0;
     }
@@ -96,19 +97,19 @@ void replace_extension(char *new_path, char *original_path, char *new_extension)
         new_path++;
         original_path++;
     }
-    *new_path = '\0';
+    *new_path = EOL;
     strcat(new_path, new_extension);
 }
 
 int remove_last_char(char *dest, char *src, int word_len) {
     strcpy(dest, src);
-    *(dest + word_len - 1) = '\0';
+    *(dest + word_len - 1) = EOL;
     return word_len - 1;
 }
 
 int is_all_spaces_or_newline(char *word) {
     int i = 0;
-    while (*(word + i) != '\0') {
+    while (*(word + i) != EOL) {
         if (!isspace((unsigned char) *(word + i))) {
             return 0;
         }
@@ -118,7 +119,7 @@ int is_all_spaces_or_newline(char *word) {
 }
 
 int includes_brackets(char *word) {
-    while (*word != '\0') {
+    while (*word != EOL) {
         if (*word == '(') {
             return 1;
         }

@@ -49,7 +49,7 @@ Result store_dot_string(Data *data, char *content, char *no_macro_file_path, int
     Result res;
     int len = 0;
     char *word = strtok(NULL, "");
-    while (isspace(*word) && *word != '\0') /* get to first `"`" */
+    while (isspace(*word) && *word != EOL) /* get to first `"`" */
         word++;
     if (*word != '"') {
         log_error("did not find opening quotes", no_macro_file_path, line_num);
@@ -58,14 +58,14 @@ Result store_dot_string(Data *data, char *content, char *no_macro_file_path, int
         return res;
     }
     word++;              /* skip first `"`" */
-    while (*word != '"' && *word != '\0') /* loop until the end of the string */
+    while (*word != '"' && *word != EOL) /* loop until the end of the string */
     {
         num_to_code((int) (*word), data);
         data++;
         len++;
         word++;
     }
-    if (*word == '\0') {
+    if (*word == EOL) {
         log_error("did not find closing quotes", no_macro_file_path, line_num);
         res.has_errors = 1;
         res.len = 0;
