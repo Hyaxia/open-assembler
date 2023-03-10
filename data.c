@@ -23,7 +23,7 @@ Result store_dot_data(Data *data, char *content, char *no_macro_file_path, int l
     int len = 0;
     char *current_word = malloc(sizeof(char) * MAX_LINE_LEN);
 
-    char *word = strtok(NULL, " "); /* get to the start of the numbers */
+    char *word = strtok(NULL, ","); /* get to the start of the numbers */
     while (word != NULL)            /* loop over the numbers until they end */
     {
         word_trim_spaces(current_word, word);

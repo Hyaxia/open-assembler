@@ -12,7 +12,7 @@ int pre_assembler(char *file_path) {
     FILE *fp, *no_macro_fp;
     char line[MAX_LINE_LEN];
     char *trimmed_line, *no_macro_file_path, *macro_name;
-    size_t len = 0;
+    size_t len;
     int has_errors = 0, macros_size = 0, macros_allocated = 3, inside_macro = 0, line_num = 1;
     Macro *macros, *target_macro;
     int new_macro_content_alloc = sizeof(char) * MACRO_MAX_LENGTH;
@@ -30,12 +30,13 @@ int pre_assembler(char *file_path) {
 
     replace_extension(no_macro_file_path, file_path, PRE_ASSEMBLER_OUTPUT_EXTENSION);
     no_macro_fp = fopen(no_macro_file_path, "w+");
-    while (fgets(line,MAX_LINE_LEN,fp)){
+    while (fgets(line, MAX_LINE_LEN, fp)) {
         /* if line too long, the buffer doesn't include the '\n' char OR the file isn't on end. */
         if (strchr(line, NEW_LINE) == NULL && !feof(fp)) {
             log_error("line is longer than 80 characters", file_path, line_num);
             has_errors = 1;
         }
+        len = strlen(line);
         if (inside_macro == 1) {
             if (has_word(line, MACRO_END, MACRO_END_LEN)) {
                 macros_size++;
