@@ -13,7 +13,7 @@ typedef struct {
 } Symbol;
 
 /* a method that reutrns 1 if the word is a lable and 0 otherwise */
-int is_symbol_deinition(char *word, int word_len);
+int is_symbol_definition(char *word, int word_len);
 
 /* check if the word passed is a valid symbol */
 int is_symbol_name_valid(char *word, int word_len);

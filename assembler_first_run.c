@@ -52,7 +52,7 @@ AssemblerFirstRunResult assembler_first_run(char *file_path) {
         }
         word = strtok(line, " ");
         current_word_len = word_trim_spaces(current_word, word);
-        if (is_symbol_deinition(current_word, current_word_len)) /* handle symbol */
+        if (is_symbol_definition(current_word, current_word_len)) /* handle symbol */
         {
             if (symbols_len == symbols_allocated) /* perform reallocation of symbols table if necessary */
             {

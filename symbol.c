@@ -16,7 +16,7 @@ int is_symbol_defined(char *symbol_name, Symbol *symbols, int symbols_len) {
     return 0;
 }
 
-int is_symbol_deinition(char *word, int word_len) {
+int is_symbol_definition(char *word, int word_len) {
     if (*(word + word_len - 1) == ':') /* its a symbol if the last char is `:` */
     {
         return 1;
