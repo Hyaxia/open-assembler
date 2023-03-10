@@ -54,6 +54,7 @@ Result store_dot_string(Data *data, char *content, char *no_macro_file_path, int
     if (*word != '"') {
         log_error("did not find opening quotes", no_macro_file_path, line_num);
         res.has_errors = 1;
+        res.len = 0;
         return res;
     }
     word++;              /* skip first `"`" */
@@ -67,6 +68,7 @@ Result store_dot_string(Data *data, char *content, char *no_macro_file_path, int
     if (*word == '\0') {
         log_error("did not find closing quotes", no_macro_file_path, line_num);
         res.has_errors = 1;
+        res.len = 0;
         return res;
     }
     num_to_code(0, data); /* add null terminator */
