@@ -31,6 +31,8 @@ mov S1.2 ,r3
 bne L3
 END: stop1
 STR: .string "abcdef"
+STR2: .string "abcdef  asd
+STR3: .string abcdeffsdfs " sdf
 LENGTH: .data 6,-9  ,+15, 2  ,1
 
 		LOOP:   	jmp t		

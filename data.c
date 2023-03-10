@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
 #include "string_utils.h"
@@ -44,20 +45,29 @@ Result store_dot_data(Data *data, char *content, char *no_macro_file_path, int l
     return res;
 }
 
-/* TODO: add error handling */
 Result store_dot_string(Data *data, char *content, char *no_macro_file_path, int line_num) {
     Result res;
     int len = 0;
-    char *word = strtok(NULL, " ");
-    while (*word != '"') /* get to first `"`" */
+    char *word = strtok(NULL, "");
+    while (isspace(*word) && *word != '\0') /* get to first `"`" */
         word++;
+    if (*word != '"') {
+        log_error("did not find opening quotes", no_macro_file_path, line_num);
+        res.has_errors = 1;
+        return res;
+    }
     word++;              /* skip first `"`" */
-    while (*word != '"') /* loop until the end of the string */
+    while (*word != '"' && *word != '\0') /* loop until the end of the string */
     {
         num_to_code((int) (*word), data);
         data++;
         len++;
         word++;
+    }
+    if (*word == '\0') {
+        log_error("did not find closing quotes", no_macro_file_path, line_num);
+        res.has_errors = 1;
+        return res;
     }
     num_to_code(0, data); /* add null terminator */
     data++;
