@@ -1,7 +1,6 @@
 #include <string.h>
 #include "instruction.h"
 #include "string_utils.h"
-#include <stdio.h>
 
 char *instruction_names[16] = {
         "mov", "cmp", "add", "sub", "not", "clr",
@@ -53,17 +52,12 @@ int is_immediate(char *word) {
 
 int is_register(char *word) {
     int reg = r0;
-    for ( reg = r0; reg <= r7; reg++) {
+    for (reg = r0; reg <= r7; reg++) {
         if (strcmp(register_names[reg], word) == 0) {
             return 1;
         }
     }
     return 0;
-}
-
-void extract_word(char *dest, char *delimiter) {
-    char *word = strtok(NULL, delimiter);
-    word_trim_spaces(dest, word);
 }
 
 void extract_single_operand(char *operand) {
@@ -85,7 +79,7 @@ AddressType handle_address_type(char *word) {
         return Tag;
 }
 
-Result handle_instruction_with_two_operands(Instruction *instruction, int instruction_code) {
+Result handle_instruction_with_two_operands(Instruction *instruction) {
     Result res;
     extract_two_operands(instruction->first_operand, instruction->second_operand);
     instruction->first_operand_address_type = handle_address_type(instruction->first_operand);
@@ -98,7 +92,7 @@ Result handle_instruction_with_two_operands(Instruction *instruction, int instru
     return res;
 }
 
-Result handle_instruction_without_operands(Instruction *instruction, int instruction_code) {
+Result handle_instruction_without_operands(void) {
     Result res;
     res.len = 1;
     res.has_errors = 0;
@@ -122,7 +116,8 @@ Result handle_instruction_with_one_operand(Instruction *instruction, int instruc
             instruction->first_param_address_type = handle_address_type(instruction->first_param);
             instruction->second_param_address_type = handle_address_type(instruction->second_param);
             res.len = 3;
-            if (instruction->first_param_address_type != Register || instruction->second_param_address_type != Register) {
+            if (instruction->first_param_address_type != Register ||
+                instruction->second_param_address_type != Register) {
                 res.len++;
             }
         } else { /* instruction without parameters */
@@ -147,11 +142,11 @@ Result handle_instruction(Instruction *instruction, int instruction_code, int IC
     instruction->IC = IC;
     num_of_operands = get_num_of_operands(instruction_code);
     if (num_of_operands == 0) {
-        res = handle_instruction_without_operands(instruction, instruction_code);
+        res = handle_instruction_without_operands();
     } else if (num_of_operands == 1) {
         res = handle_instruction_with_one_operand(instruction, instruction_code);
     } else {
-        res = handle_instruction_with_two_operands(instruction, instruction_code);
+        res = handle_instruction_with_two_operands(instruction);
     }
     return res;
 }
