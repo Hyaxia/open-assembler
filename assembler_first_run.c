@@ -103,7 +103,9 @@ AssemblerFirstRunResult assembler_first_run(char *file_path) {
             continue; /* we are done handling this line */
         }
         if (strcmp(current_word, ".extern") == 0) {
-            res = add_external_symbol(symbols, symbols_len, word);
+            word = strtok(NULL, " ");
+            symbol_name_len = word_trim_spaces(symbol_name, word);
+            res = add_external_symbol(symbols, symbols_len, symbol_name, symbol_name_len);
             symbols_len = symbols_len + res.len;
             continue; /* we are done handling this line */
         }

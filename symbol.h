@@ -22,7 +22,7 @@ int is_symbol_name_valid(char *word, int word_len);
 int is_symbol_defined(char *symbol_name, Symbol *symbols, int symbols_len);
 
 /* adds an external type symbol to the symbols array */
-Result add_external_symbol(Symbol *symbols, int symbols_len, char *word);
+Result add_external_symbol(Symbol *symbols, int symbols_len, char *symbol_name, int symbol_name_len);
 
 /* adds a data type symbol to the symbols array */
 Result add_data_symbol(Symbol *symbols, int symbols_len, char *symbol_name, int symbol_name_len, int DC);

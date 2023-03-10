@@ -40,22 +40,17 @@ int is_symbol_name_valid(char *word, int word_len) {
     return 1;
 }
 
-Result add_external_symbol(Symbol *symbols, int symbols_len, char *word) {
-    Result res;
-    int symbol_name_len;
-    char *symbol_name = malloc(sizeof(char) * SYMBOL_MAX_LEN);
-
-    word = strtok(NULL, " ");
-    symbol_name_len = word_trim_spaces(symbol_name, word);
-
-    symbols[symbols_len].counter = 0;
+void add_symbol(Symbol *symbols, int symbols_len, char *symbol_name, int symbol_name_len, int counter, char *type) {
+    symbols[symbols_len].counter = counter;
     symbols[symbols_len].name = malloc(sizeof(char) * symbol_name_len);
     symbols[symbols_len].type = malloc(sizeof(char) * SYMBOL_TYPE_MAX_LEN);
     strcpy(symbols[symbols_len].name, symbol_name);
-    strcpy(symbols[symbols_len].type, "external");
-    /* TODO: add a check if there is already the name of the symbol. */
+    strcpy(symbols[symbols_len].type, type);
+}
 
-    free(symbol_name);
+Result add_external_symbol(Symbol *symbols, int symbols_len, char *symbol_name, int symbol_name_len) {
+    Result res;
+    add_symbol(symbols, symbols_len, symbol_name, symbol_name_len, 0, "external");
     res.has_errors = 0;
     res.len = 1;
     return res;
@@ -63,14 +58,7 @@ Result add_external_symbol(Symbol *symbols, int symbols_len, char *word) {
 
 Result add_data_symbol(Symbol *symbols, int symbols_len, char *symbol_name, int symbol_name_len, int DC) {
     Result res;
-
-    symbols[symbols_len].counter = DC;
-    symbols[symbols_len].name = malloc(sizeof(char) * symbol_name_len);
-    symbols[symbols_len].type = malloc(sizeof(char) * SYMBOL_TYPE_MAX_LEN);
-    strcpy(symbols[symbols_len].name, symbol_name);
-    strcpy(symbols[symbols_len].type, "data");
-    /* TODO: add a check if there is already the name of the symbol. */
-
+    add_symbol(symbols, symbols_len, symbol_name, symbol_name_len, DC, "data");
     res.has_errors = 0;
     res.len = 1;
     return res;
@@ -78,15 +66,7 @@ Result add_data_symbol(Symbol *symbols, int symbols_len, char *symbol_name, int 
 
 Result add_code_symbol(Symbol *symbols, int symbols_len, char *symbol_name, int symbol_name_len, int IC) {
     Result res;
-
-    symbols[symbols_len].counter = IC;
-    symbols[symbols_len].name = malloc(sizeof(char) * symbol_name_len);
-    symbols[symbols_len].type = malloc(sizeof(char) * SYMBOL_TYPE_MAX_LEN);
-    strcpy(symbols[symbols_len].name, symbol_name);
-    strcpy(symbols[symbols_len].type, "code");
-    /* TODO: add a check if there is already the name of the symbol. */
-    /* TODO: we need to identify the symbol and handle it */
-
+    add_symbol(symbols, symbols_len, symbol_name, symbol_name_len, IC, "code");
     res.has_errors = 0;
     res.len = 1;
     return res;
