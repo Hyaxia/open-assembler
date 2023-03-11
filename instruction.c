@@ -52,7 +52,7 @@ int is_immediate(char *word) {
 
 int is_register(char *word) {
     int reg;
-    for ( reg = r0; reg <= r7; reg++) {
+    for (reg = r0; reg <= r7; reg++) {
         if (strcmp(register_names[reg], word) == 0) {
             return 1;
         }
@@ -109,10 +109,10 @@ Result handle_instruction_with_one_operand(Instruction *instruction, int instruc
             operand = strtok(line, "(");
             first_parameter = strtok(NULL, ",");
             second_parameter = strtok(NULL, ")"); /* second parameter without the closing bracket */
-            word_trim_spaces(instruction->src_operand, operand);
+            word_trim_spaces(instruction->dest_operand, operand);
             word_trim_spaces(instruction->first_param, first_parameter);
             word_trim_spaces(instruction->second_param, second_parameter);
-            instruction->src_operand_address_type = handle_address_type(instruction->src_operand);
+            instruction->dest_operand_address_type = Jump_with_params;
             instruction->first_param_address_type = handle_address_type(instruction->first_param);
             instruction->second_param_address_type = handle_address_type(instruction->second_param);
             res.len = 3;
@@ -122,13 +122,13 @@ Result handle_instruction_with_one_operand(Instruction *instruction, int instruc
             }
         } else { /* instruction without parameters */
             operand = strtok(line, ",");
-            word_trim_spaces(instruction->src_operand, operand);
-            instruction->src_operand_address_type = handle_address_type(instruction->src_operand);
+            word_trim_spaces(instruction->dest_operand, operand);
+            instruction->dest_operand_address_type = handle_address_type(instruction->dest_operand);
             res.len = 2;
         }
     } else {
-        extract_single_operand(instruction->src_operand);
-        instruction->src_operand_address_type = handle_address_type(instruction->src_operand);
+        extract_single_operand(instruction->dest_operand);
+        instruction->dest_operand_address_type = handle_address_type(instruction->dest_operand);
         res.len = 2;
     }
     res.has_errors = 0;

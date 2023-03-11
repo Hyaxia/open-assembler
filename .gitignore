@@ -2,3 +2,4 @@
 *.am
 .vscode
 cmake-build-debug/
+.idea

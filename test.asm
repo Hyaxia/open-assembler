@@ -27,12 +27,17 @@ inc K
 
 jmp MAIN
 
+TESTSTE: jmp L1(#-1,r6)
+
 mov S1.2 ,r3
 bne L3
 END: stop1
 STR: .string "abcdef"
+sub r1, r4
 STR2: .string "abcdef  asd
 STR3: .string abcdeffsdfs " sdf
+
+ mov r3 , r7
 LENGTH: .data 6,-9  ,+15, 2  ,1
 
 		LOOP:   	jmp t		
