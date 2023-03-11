@@ -37,6 +37,8 @@ sub r1, r4
 STR2: .string "abcdef  asd
 STR3: .string abcdeffsdfs " sdf
 
+.extern MAIN
+
  mov r3 , r7
 LENGTH: .data 6,-9  ,+15, 2  ,1
 

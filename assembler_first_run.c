@@ -105,6 +105,11 @@ AssemblerFirstRunResult assembler_first_run(char *file_path) {
         if (strcmp(current_word, ".extern") == 0) {
             word = strtok(NULL, " ");
             symbol_name_len = word_trim_spaces(symbol_name, word);
+            if (get_symbol(symbol_name, symbols, symbols_len) != NULL) {
+                log_error("symbol already defined", no_macro_file_path, line_num);
+                has_errors = 1;
+                continue;
+            }
             res = add_external_symbol(symbols, symbols_len, symbol_name, symbol_name_len);
             symbols_len = symbols_len + res.len;
             continue; /* we are done handling this line */

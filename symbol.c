@@ -6,7 +6,7 @@
 #include "global.h"
 #include "string_utils.h"
 
-Symbol* get_symbol(char *symbol_name, Symbol *symbols, int symbols_len) {
+Symbol *get_symbol(char *symbol_name, Symbol *symbols, int symbols_len) {
     int index;
     for (index = 0; index < symbols_len; index++) {
         if (strcmp(symbols[index].name, symbol_name) == 0) {
@@ -40,16 +40,17 @@ int is_symbol_name_valid(char *word, int word_len) {
     return 1;
 }
 
-void add_symbol(Symbol *symbols, int symbols_len, char *symbol_name, int symbol_name_len, int counter, SymbolType type) {
+void
+add_symbol(Symbol *symbols, int symbols_len, char *symbol_name, int symbol_name_len, int counter, SymbolType type) {
     symbols[symbols_len].counter = counter;
     symbols[symbols_len].name = malloc(sizeof(char) * symbol_name_len);
     strcpy(symbols[symbols_len].name, symbol_name);
     symbols[symbols_len].type = type;
-    /* TODO: add a check if there is already the name of the symbol. */
 }
+
 Result add_external_symbol(Symbol *symbols, int symbols_len, char *symbol_name, int symbol_name_len) {
     Result res;
-    add_symbol(symbols, symbols_len, symbol_name, symbol_name_len, 0,External_Symbol );
+    add_symbol(symbols, symbols_len, symbol_name, symbol_name_len, 0, External_Symbol);
     res.has_errors = 0;
     res.len = 1;
     return res;
@@ -57,7 +58,7 @@ Result add_external_symbol(Symbol *symbols, int symbols_len, char *symbol_name, 
 
 Result add_data_symbol(Symbol *symbols, int symbols_len, char *symbol_name, int symbol_name_len, int DC) {
     Result res;
-    add_symbol(symbols, symbols_len, symbol_name, symbol_name_len, DC,Data_Symbol);
+    add_symbol(symbols, symbols_len, symbol_name, symbol_name_len, DC, Data_Symbol);
     res.has_errors = 0;
     res.len = 1;
     return res;
