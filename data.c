@@ -7,18 +7,18 @@
 #include "error_handling.h"
 #include "data.h"
 
-int num_to_code(int number, int *code, int number_size) {
+void num_to_code(int number, char *code, int number_size) {
     int index, current_digit;
     int mask = 1;
+    /* we populate the array from the end */
     for (index = 0; index < number_size; index++) {
         current_digit = mask & (number >> index);
-        code[index] = current_digit; /* we populate the array from the end */
+        code[index] = (char)('0' + current_digit); /*put char the char of the bin number*/
     }
-    return 0;
 }
 
-int num_to_data(int number, Data *data) {
-    return num_to_code(number, data->code, WORD_LEN);
+void num_to_data(int number, Data *data) {
+    num_to_code(number, data->code, WORD_LEN);
 }
 
 

@@ -14,11 +14,11 @@ void print_result(AssemblerFirstRunResult res) {
                res.symbols[i].counter);
     }
 
-    printf("\n__data is__\n");
+    printf("\n__data(%d) is__\n",res.datas_len);
     for (i = 0; i < res.datas_len; i++) {
         Data data = res.datas[i];
-        for (j = 13; j >=0; j--) {
-            printf("%d", data.code[j]);
+        for (j = 13; j >= 0; j--) {
+            printf("%c", data.code[j]);
         }
         printf("\n");
     }
@@ -41,8 +41,21 @@ void print_result(AssemblerFirstRunResult res) {
     }
 }
 
+void print_sec_run(AssemblerSecondRunResult assemblerSecondRunResult) {
+    int i,j;
+    printf("\n__code(%d) is__\n",assemblerSecondRunResult.code_len);
+    for (i = 0; i < assemblerSecondRunResult.code_len; i++) {
+        Data data = assemblerSecondRunResult.code[i];
+        for (j = 13; j >= 0; j--) {
+            printf("%c", data.code[j]);
+        }
+        printf("\n");
+    }
+}
+
 int main(int argc, char *argv[]) {
     AssemblerFirstRunResult res;
+    AssemblerSecondRunResult secondRunResult;
     int pre_assembler_result;
     char **file_name;
     if (argc < 2) {
@@ -62,7 +75,8 @@ int main(int argc, char *argv[]) {
             printf("file %s has errors\n", *file_name);
         }
         print_result(res);
-        assembler_second_run(res);
+        secondRunResult = assembler_second_run(res);
+        print_sec_run(secondRunResult);
         printf("\n\nfinished handling %s\n", *file_name);
     }
 

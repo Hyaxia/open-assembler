@@ -9,7 +9,8 @@ typedef enum AddressType{
     Immediate,
     Tag,
     Jump_with_params,
-    Register
+    Register,
+    None
 } AddressType ;
 
 typedef struct {

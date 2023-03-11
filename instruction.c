@@ -101,7 +101,8 @@ Result handle_instruction_without_operands(void) {
 
 Result handle_instruction_with_one_operand(Instruction *instruction, int instruction_code) {
     Result res;
-    char *line, *operand, *first_parameter, *second_parameter, *symbol;
+    char *line, *operand, *first_parameter, *second_parameter;
+    instruction->src_operand_address_type = None;
     if (instruction_code == jsr || instruction_code == bne || instruction_code == jmp) {
         line = strtok(NULL, ""); /* get the rest of the line */
         if (includes_brackets(line)) { /* check if we have parameters */

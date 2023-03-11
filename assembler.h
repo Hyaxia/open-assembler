@@ -17,8 +17,8 @@ typedef struct {
 
 typedef struct {
     int has_errors;
-    Data *machine_codes;
-    int machine_codes_len;
+    Data *code;
+    int code_len;
 } AssemblerSecondRunResult;
 
 #endif /* ASSEMBLER_H_ */
