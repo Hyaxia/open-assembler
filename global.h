@@ -4,6 +4,7 @@
 #define MAX_LINE_LEN 81 /* length including `\0` at the end */
 #define NEW_LINE '\n'
 #define EOL '\0'
+#define IC_OFFSET 100
 
 typedef struct Result {
     int len;

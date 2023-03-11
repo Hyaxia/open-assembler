@@ -14,7 +14,7 @@ AssemblerFirstRunResult assembler_first_run(char *file_path) {
     FILE *fp;
     char line[MAX_LINE_LEN];
     char *no_macro_file_path, *current_word, *symbol_name, *word;
-    int IC = 0, DC = 0;                 /* current counter for instructions */
+    int IC = IC_OFFSET, DC = 0;                 /* current counter for instructions */
     int line_num = 0;                   /* start at 0, as we enter to while we increase by 1 */
     int has_symbol = 0, has_errors = 0; /* flags */
     int current_word_len, symbol_name_len, symbols_len = 0, instructions_len = 0;

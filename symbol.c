@@ -43,7 +43,7 @@ int is_symbol_name_valid(char *word, int word_len) {
 void
 add_symbol(Symbol *symbols, int symbols_len, char *symbol_name, int symbol_name_len, int counter, SymbolType type) {
     symbols[symbols_len].counter = counter;
-    symbols[symbols_len].name = malloc(sizeof(char) * symbol_name_len);
+    symbols[symbols_len].name = malloc(sizeof(char) * symbol_name_len + 1); /*TODO: we need the +1 here*/
     strcpy(symbols[symbols_len].name, symbol_name);
     symbols[symbols_len].type = type;
 }
